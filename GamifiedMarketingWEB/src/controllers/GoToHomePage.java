@@ -1,7 +1,8 @@
-package controller;
+package controllers;
 
 import java.io.IOException;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,12 +18,19 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import entities.User;
 
-@WebServlet("/LoginPage")
-public class GoToLogin extends HttpServlet {
+@WebServlet("/Home")
+public class GoToHomePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
+	/*
+	 * @EJB(name = "it.polimi.db2.mission.services/MissionService")
+	 
+	private MissionService mService;
+	@EJB(name = "it.polimi.db2.mission.services/ProjectService")
+	private ProjectService pService;
+	*/
 	
-	public GoToLogin() {
+	public GoToHomePage() {
 		super();
 	}
 
@@ -36,11 +44,24 @@ public class GoToLogin extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {	
-		// Redirect to the login page
-		String path = "/index.html";
+			throws ServletException, IOException {
+		// If the user is not logged in (not present in session) redirect to the login
+		String loginpath = getServletContext().getContextPath() + "/index.html";
+		HttpSession session = request.getSession();
+		if (session.isNew() || session.getAttribute("user") == null) {
+			response.sendRedirect(loginpath);
+			return;
+		}
+
+		User user = (User) session.getAttribute("user");		
+
+		// Redirect to the Home page and add missions to the parameters
+		String path = "/WEB-INF/Home.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		// ctx.setVariable("missions", missions);
+		// ctx.setVariable("projects", projects);
+
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
@@ -51,4 +72,5 @@ public class GoToLogin extends HttpServlet {
 
 	public void destroy() {
 	}
+	
 }
