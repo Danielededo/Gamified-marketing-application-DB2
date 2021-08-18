@@ -80,6 +80,13 @@ public class CheckLogin extends HttpServlet {
 		}
 
 	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		String path = getServletContext().getContextPath() + "/LoginPage";
+		response.sendRedirect(path);
+	}
 
 	public void destroy() {
 	}

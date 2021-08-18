@@ -21,7 +21,7 @@ import entities.User;
 public class GoToLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	
+
 	public GoToLogin() {
 		super();
 	}
@@ -34,9 +34,13 @@ public class GoToLogin extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {	
+			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate();
+		}
 		// Redirect to the login page
 		String path = "/index.html";
 		ServletContext servletContext = getServletContext();
