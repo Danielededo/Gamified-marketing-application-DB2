@@ -3,5 +3,12 @@
 	<persistence-unit name="GamifiedMarketingEJB">
 		<jta-data-source>GamifiedMarketingDB</jta-data-source>
 		<class>entities.User</class>
+		<class>entities.Log</class>
+		<class>entities.Admin</class>
+		<class>entities.Answer</class>
+		<class>entities.OffensiveWord</class>
+		<class>entities.Question</class>
+		<class>entities.Product</class>
+		<class>entities.Submission</class>
 	</persistence-unit>
 </persistence>
