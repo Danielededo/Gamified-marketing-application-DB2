@@ -17,8 +17,10 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import entities.Admin;
 import entities.User;
 import exceptions.CredentialsException;
+import services.AdminService;
 import services.UserService;
 
 @WebServlet("/CheckLogin")
@@ -29,6 +31,9 @@ public class CheckLogin extends HttpServlet {
 	
 	@EJB(name = "services/UserService")
 	UserService usrService;
+	
+	@EJB(name = "services/AdminService")
+	AdminService adminService;
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
@@ -55,6 +60,23 @@ public class CheckLogin extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
 			return;
 		}
+		
+		Admin admin;
+		try {
+			// query db to authenticate for admin
+			admin = adminService.checkCredentials(usrn, pwd);
+		} catch (CredentialsException | NonUniqueResultException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
+			return;
+		}
+		String path;
+		if (admin != null) { // If the admin exists, add info to the session and go to admin page
+			request.getSession().setAttribute("user", admin);
+			path = getServletContext().getContextPath() + "/AdminPage";
+			response.sendRedirect(path);
+			return;
+		}
+	
 		User user;
 		try {
 			// query db to authenticate for user
@@ -67,7 +89,6 @@ public class CheckLogin extends HttpServlet {
 		// If the user exists, add info to the session and go to home page, otherwise
 		// show login page with error message
 
-		String path;
 		if (user == null) {
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
