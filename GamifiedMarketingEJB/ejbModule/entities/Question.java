@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,7 +17,9 @@ public class Question implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer product;
+	@ManyToOne
+	@JoinColumn(name = "product")
+	private Product product;
 	private String text;
 	private Boolean mandatory;
 	
@@ -31,11 +35,11 @@ public class Question implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getProduct() {
+	public Product getProduct() {
 		return product;
 	}
 
-	public void setProduct(Integer product) {
+	public void setProduct(Product product) {
 		this.product = product;
 	}
 

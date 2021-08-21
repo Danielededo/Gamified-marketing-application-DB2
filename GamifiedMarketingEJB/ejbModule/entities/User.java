@@ -22,7 +22,6 @@ public class User implements Serializable {
 	private String password;
 	private String email;
 	private Boolean banned;
-	private Integer points;
 	
 	public User () {
 		// EJB constructor
@@ -60,13 +59,6 @@ public class User implements Serializable {
 	}
 	public void setBanned(Boolean banned) {
 		this.banned = banned;
-	}
-	
-	public Integer getPoints() {
-		return points;
-	}
-	public void setPoints(Integer points) {
-		this.points = points;
 	}
 	
 }

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,7 +18,9 @@ public class Log implements Serializable {
 	@Id 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer user;
+	@ManyToOne
+	@JoinColumn(name = "user")
+	private User user;
 	private LocalDateTime datetime;
 	
 	public Log() {
@@ -29,10 +33,10 @@ public class Log implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getUser() {
+	public User getUser() {
 		return user;
 	}
-	public void setUser(Integer user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 	public LocalDateTime getDatetime() {

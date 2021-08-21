@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,8 +18,12 @@ public class Answer implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer submission;
-	private Integer question;
+	@ManyToOne
+	@JoinColumn(name = "submission")
+	private Submission submission;
+	@ManyToOne
+	@JoinColumn(name = "question")
+	private Question question;
 	private String text;
 	
 	public Integer getId() {
@@ -26,16 +32,16 @@ public class Answer implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getSubmission() {
+	public Submission getSubmission() {
 		return submission;
 	}
-	public void setSubmission(Integer submission) {
+	public void setSubmission(Submission submission) {
 		this.submission = submission;
 	}
-	public Integer getQuestion() {
+	public Question getQuestion() {
 		return question;
 	}
-	public void setQuestion(Integer question) {
+	public void setQuestion(Question question) {
 		this.question = question;
 	}
 	public String getText() {

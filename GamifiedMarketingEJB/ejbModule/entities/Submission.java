@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,8 +17,14 @@ public class Submission implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer user;
-	private Integer product;
+	private Integer points;
+	private Boolean canceled;
+	@ManyToOne
+	@JoinColumn(name = "user")
+	private User user;
+	@ManyToOne()
+	@JoinColumn(name = "product")
+	private Product product;
 	
 	public Submission() {
 		// EJB constructor
@@ -30,20 +38,36 @@ public class Submission implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(Integer user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
-	public Integer getProduct() {
+	public Product getProduct() {
 		return product;
 	}
 
-	public void setProduct(Integer product) {
+	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public Integer getPoints() {
+		return points;
+	}
+
+	public void setPoints(Integer points) {
+		this.points = points;
+	}
+
+	public Boolean getCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled(Boolean canceled) {
+		this.canceled = canceled;
 	}
 	
 }
