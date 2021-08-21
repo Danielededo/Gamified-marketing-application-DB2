@@ -8,10 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "question", schema = "gamified_marketing")
+@NamedQuery(name = "Question.findByProduct", query = "SELECT q FROM Question q WHERE q.product.id = :productID")
 public class Question implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

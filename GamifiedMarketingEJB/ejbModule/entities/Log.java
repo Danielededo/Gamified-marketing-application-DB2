@@ -9,10 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user", schema = "gamified_marketing")
+@Table(name = "log", schema = "gamified_marketing")
+@NamedQuery(name = "Log.findByUsername", query = "SELECT l FROM Log l WHERE l.user.username = :username")
 public class Log implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id 	

@@ -6,10 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "admin", schema = "gamified_marketing")
+@NamedQuery(name = "Admin.checkCredentials", query = "SELECT r FROM Admin r  WHERE r.username = ?1 and r.password = ?2")
 public class Admin implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
