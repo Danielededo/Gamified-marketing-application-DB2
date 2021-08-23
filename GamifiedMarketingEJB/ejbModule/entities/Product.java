@@ -1,8 +1,7 @@
 package entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-
+import java.sql.Date;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "product", schema = "gamified_marketing")
 @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
+@NamedQuery(name = "Product.findDailyProduct", query = "SELECT p FROM Product p WHERE p.date = ?1")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -24,8 +24,9 @@ public class Product implements Serializable {
 	private String name;
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
-	private Byte[] image;
-	private LocalDate date;
+	private byte[] image;
+
+	private Date date;
 	
 	public Product() {
 		// EJB constructor
@@ -47,19 +48,19 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public Byte[] getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 
-	public void setImage(Byte[] image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	

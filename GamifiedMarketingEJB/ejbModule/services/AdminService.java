@@ -37,4 +37,5 @@ public class AdminService {
 		throw new NonUniqueResultException("More than one user registered with same credentials");
 
 	}
+	
 }

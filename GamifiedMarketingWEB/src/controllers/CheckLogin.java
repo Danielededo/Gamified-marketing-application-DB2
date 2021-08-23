@@ -1,6 +1,11 @@
 package controllers;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.TimeZone;
 
 import javax.ejb.EJB;
 import javax.persistence.NonUniqueResultException;
@@ -30,10 +35,10 @@ public class CheckLogin extends HttpServlet {
 	private TemplateEngine templateEngine;
 	
 	@EJB(name = "services/UserService")
-	UserService usrService;
+	private UserService usrService;
 	
 	@EJB(name = "services/AdminService")
-	AdminService adminService;
+	private AdminService adminService;
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
@@ -46,6 +51,12 @@ public class CheckLogin extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		ZoneId zoneId = ZoneId.of("Europe/Rome");
+		System.out.println(LocalDateTime.now().plus(Duration.ofHours(2)));
+		System.out.println(LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate());
+		System.out.println(LocalDateTime.now().atZone(zoneId));
+		System.out.println(LocalDateTime.now().atZone(zoneId).toLocalDate());
+		
 		// obtain and escape params
 		String usrn = null;
 		String pwd = null;
@@ -71,7 +82,7 @@ public class CheckLogin extends HttpServlet {
 		}
 		String path;
 		if (admin != null) { // If the admin exists, add info to the session and go to admin page
-			request.getSession().setAttribute("user", admin);
+			request.getSession().setAttribute("admin", admin);
 			path = getServletContext().getContextPath() + "/AdminPage";
 			response.sendRedirect(path);
 			return;

@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Home</title>
 </head>
 <body>
+	<span>Gamified marketing project</span>
+
+	<span th:if="${dailyProduct} != null" th:text="${dailyProduct.name}">Product of the day</span>
+	<span th:if="${dailyProduct} == null">No daily product has been selected</span>
+	<br>
+	<img th:if="${dailyProduct} != null" width="200px"
+		th:src="*{'data:image/png;base64,'+ dailyProduct.image}">
+
+	<div th:if="${answers} != null">
+		<p>Up to now, the following reviews have been received:</p>
+		<ul>
+			<li th:each="sub : ${submissions}"><span
+				th:text="'User: ' + ${sub.user.username}"> </span>
+				<table>
+					<thead>
+						<tr>
+							<th>Question</th>
+							<th>Answer</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="answer : ${sub.answers}">
+							<td data-label="Question" th:text="${answer.question.text}"></td>
+							<td data-label="Answer" th:text="${answer.text}"></td>
+					</tbody>
+				</table></li>
+		</ul>
+	</div>
+	<div th:if="${answers} == null">
+		<p>Up to now, no reviews have been received</p>
+	</div>
 
 </body>
 </html>

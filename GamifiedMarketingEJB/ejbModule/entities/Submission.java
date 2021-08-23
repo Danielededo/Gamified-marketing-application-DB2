@@ -1,14 +1,18 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,9 +30,13 @@ public class Submission implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "user")
 	private User user;
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name = "product")
 	private Product product;
+	
+	//bi-directional many-to-one association to Answe
+	@OneToMany(mappedBy="submission", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true )
+	private List<Answer> answers;
 	
 	public Submission() {
 		// EJB constructor
