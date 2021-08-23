@@ -19,14 +19,14 @@ import javax.persistence.Table;
 @Table(name = "submission", schema = "gamified_marketing")
 @NamedQuery(name = "Submission.findByUsername", query = "SELECT s FROM Submission s WHERE s.user.username = :username")
 @NamedQuery(name = "Submission.findByProduct", query = "SELECT s FROM Submission s WHERE s.product.id = :productId")
-@NamedQuery(name = "Submission.findByDate", query = "SELECT s FROM Submission s WHERE s.product.date = :date")
+@NamedQuery(name = "Submission.findByDate", query = "SELECT s FROM Submission s WHERE s.product.date = :dateNow ORDER BY s.points DESC")
 public class Submission implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Integer points;
-	private Boolean canceled;
+	private Boolean cancelled;
 	@ManyToOne
 	@JoinColumn(name = "user")
 	private User user;
@@ -75,11 +75,11 @@ public class Submission implements Serializable {
 	}
 
 	public Boolean getCanceled() {
-		return canceled;
+		return cancelled;
 	}
 
-	public void setCanceled(Boolean canceled) {
-		this.canceled = canceled;
+	public void setCanceled(Boolean cancelled) {
+		this.cancelled = cancelled;
 	}
 	
 }
