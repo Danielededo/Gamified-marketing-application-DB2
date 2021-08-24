@@ -81,5 +81,14 @@ public class Submission implements Serializable {
 	public void setCanceled(Boolean cancelled) {
 		this.cancelled = cancelled;
 	}
+
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+	
 	
 }

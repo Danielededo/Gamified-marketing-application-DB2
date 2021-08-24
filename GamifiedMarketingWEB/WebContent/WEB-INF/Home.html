@@ -7,6 +7,8 @@
 <body>
 	<span>Gamified marketing project</span>
 
+	<a th:href="@{/Leaderboard}"> Leaderboard</a>
+	
 	<span th:if="${dailyProduct} != null" th:text="${dailyProduct.name}">Product of the day</span>
 	<span th:if="${dailyProduct} == null">No daily product has been selected</span>
 	<br>

@@ -38,9 +38,10 @@ public class Leaderboard extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		String path = getServletContext().getContextPath() + "/Leaderboard";
+		String path = "/WEB-INF/Leaderboard.html";
         ctx.setVariable("submissions", leaderboardService.findLeaderboard());
-        response.sendRedirect(path);
+        
+        templateEngine.process(path, ctx, response.getWriter());
     }
 	
 	public void destroy() {

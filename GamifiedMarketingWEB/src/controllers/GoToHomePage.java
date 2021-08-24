@@ -32,7 +32,7 @@ public class GoToHomePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	
-	@EJB(name = "it.polimi.db2.mission.services/ProductService") 
+	@EJB(name = "services/ProductService") 
 	private ProductService productService;
 	//@EJB(name = "it.polimi.db2.mission.services/SubmissionService")
 	//private SubmissionService pService;
