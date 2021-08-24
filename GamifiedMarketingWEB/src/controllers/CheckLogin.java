@@ -51,11 +51,6 @@ public class CheckLogin extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ZoneId zoneId = ZoneId.of("Europe/Rome");
-		System.out.println(LocalDateTime.now().plus(Duration.ofHours(2)));
-		System.out.println(LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate());
-		System.out.println(LocalDateTime.now().atZone(zoneId));
-		System.out.println(LocalDateTime.now().atZone(zoneId).toLocalDate());
 		
 		// obtain and escape params
 		String usrn = null;

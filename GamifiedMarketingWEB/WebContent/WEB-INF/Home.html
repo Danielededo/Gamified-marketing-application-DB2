@@ -8,13 +8,16 @@
 	<span>Gamified marketing project</span>
 
 	<a th:href="@{/Leaderboard}"> Leaderboard</a>
+	<br>
 	
-	<span th:if="${dailyProduct} != null" th:text="${dailyProduct.name}">Product of the day</span>
+	<span th:if="${dailyProduct} != null" th:text="${'The daily product is: ' + dailyProduct.name}">Product of the day</span>
 	<span th:if="${dailyProduct} == null">No daily product has been selected</span>
 	<br>
+	
 	<img th:if="${dailyProduct} != null" width="200px"
-		th:src="*{'data:image/png;base64,'+ dailyProduct.image}">
-
+		th:src="*{'data:image/png;base64,'+ dailyProduct.getBase64Image()}">
+	<br>
+	
 	<div th:if="${answers} != null">
 		<p>Up to now, the following reviews have been received:</p>
 		<ul>

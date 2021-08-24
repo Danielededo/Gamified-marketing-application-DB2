@@ -24,7 +24,7 @@ public class Leaderboard extends HttpServlet {
 	private TemplateEngine templateEngine;
 	
 	@EJB(name = "services/SubmissionService")
-    private SubmissionService leaderboardService;
+    private SubmissionService submissionService;
 	
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
@@ -39,7 +39,7 @@ public class Leaderboard extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Leaderboard.html";
-        ctx.setVariable("submissions", leaderboardService.findLeaderboard());
+        ctx.setVariable("submissions", submissionService.findLeaderboard());
         
         templateEngine.process(path, ctx, response.getWriter());
     }

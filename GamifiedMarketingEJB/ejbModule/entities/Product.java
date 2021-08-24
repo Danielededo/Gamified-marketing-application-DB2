@@ -2,6 +2,8 @@ package entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Base64;
+
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -62,6 +64,10 @@ public class Product implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	
+	public String getBase64Image() {
+		return Base64.getMimeEncoder().encodeToString(image);
 	}
 	
 }

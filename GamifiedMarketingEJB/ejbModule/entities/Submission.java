@@ -34,7 +34,7 @@ public class Submission implements Serializable {
 	@JoinColumn(name = "product")
 	private Product product;
 	
-	//bi-directional many-to-one association to Answe
+	//bi-directional many-to-one association to Answer
 	@OneToMany(mappedBy="submission", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true )
 	private List<Answer> answers;
 	
@@ -74,11 +74,11 @@ public class Submission implements Serializable {
 		this.points = points;
 	}
 
-	public Boolean getCanceled() {
+	public Boolean getCancelled() {
 		return cancelled;
 	}
 
-	public void setCanceled(Boolean cancelled) {
+	public void setCancelled(Boolean cancelled) {
 		this.cancelled = cancelled;
 	}
 
