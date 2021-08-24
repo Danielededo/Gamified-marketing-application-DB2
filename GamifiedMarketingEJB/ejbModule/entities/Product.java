@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "product", schema = "gamified_marketing")
-@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
+@NamedQuery(name = "Product.getAllProducts", query = "SELECT p FROM Product p ORDER BY p.date DESC")
 @NamedQuery(name = "Product.findDailyProduct", query = "SELECT p FROM Product p WHERE p.date = ?1")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;

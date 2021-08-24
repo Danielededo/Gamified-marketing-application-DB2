@@ -38,4 +38,8 @@ public class ProductService {
 
 	}
 	
+	public List<Product> getAllProducts()  {
+		return em.createNamedQuery("Product.getAllProducts", Product.class).getResultList();
+	}
+	
 }

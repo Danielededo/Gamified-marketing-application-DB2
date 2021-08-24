@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import entities.Answer;
+import entities.Product;
 import entities.Submission;
 
 @Stateless
@@ -34,6 +35,17 @@ public class SubmissionService {
 		return submissions;
 	}
 	
+	public List<Submission> findByProduct(Integer product){
+		List<Submission> submissions = em.createNamedQuery("Submission.findByProduct", Submission.class).setParameter("productId", product).getResultList();
+		return submissions;
+	}
+	
+	public List<Submission> findCancelledByProduct(Integer product){
+		List<Submission> submissions = em.createNamedQuery("Submission.findCancelledByProduct", Submission.class).setParameter("productId", product).getResultList();
+		return submissions;
+	}
+	
+	/*
 	public List<Answer> findReviews(Integer product){
 		List<Answer> answers = null;
 		List<Submission> submissions = em.createNamedQuery("Submission.findByProduct", Submission.class).setParameter("productId", product).getResultList();
@@ -44,4 +56,5 @@ public class SubmissionService {
 		}
 		return answers;
 	}
+	*/
 }

@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.persistence.NonUniqueResultException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,28 +20,20 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import entities.Admin;
 import entities.Product;
 import entities.Submission;
 import entities.User;
-import exceptions.CredentialsException;
-import services.ProductService;
-import services.SubmissionService;
 
-@WebServlet("/Home")
-public class GoToHomePage extends HttpServlet {
+@WebServlet("/InspectionPage")
+public class GoToInspectionPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-
-	@EJB(name = "services/ProductService") 
-	private ProductService productService;
-	@EJB(name = "services/SubmissionService")
-	private SubmissionService submissionService;
-
-
-	public GoToHomePage() {
+	
+	public GoToInspectionPage() {
 		super();
 	}
-
+	
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
@@ -51,46 +42,24 @@ public class GoToHomePage extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		LocalDate today = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
 
-		User user = (User) session.getAttribute("user");
-		Product dailyProduct = null;
-		List<Submission> submissions = null;
-
-		try {
-			// query db to authenticate for admin
-			dailyProduct = productService.findDailyProduct();
-		} catch (NonUniqueResultException e) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error retrieving daily product");
-			return;
-		}
-
-		try {
-			submissions = submissionService.findByProduct(dailyProduct.getId());
-		} catch (NullPointerException npe) {
-			submissions = null;
-		}
+		Admin admin = (Admin) session.getAttribute("admin");
+		List<Product> dailyProducts = null;		
 		
 		// Redirect to the Home page and add missions to the parameters
-		String path = "/WEB-INF/Home.html";
+		String path = "/WEB-INF/InspectionPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("dailyProduct", dailyProduct);
-		ctx.setVariable("submissions", submissions);
+		ctx.setVariable("dailyProducts", dailyProducts);
 
 		templateEngine.process(path, ctx, response.getWriter());
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
-	}
-
+	
 	public void destroy() {
 	}
-
 }

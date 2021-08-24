@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>InspectionPage</title>
+</head>
+<body>
+	<div th:if="${not #lists.isEmpty(dailyProducts)}">
+		<p>Up to now, the following daily products have been created:</p>
+		<ul>
+			<li th:each="prod : ${dailyProducts}"><span
+				th:text="'Name: ' + ${prod.name}"> </span> <br> <span
+				th:text="'Date: ' + ${prod.date}"> </span> <br> <img
+				width="200px"
+				th:src="*{'data:image/png;base64,'+ prod.getBase64Image()}"> <br>
+				<a th:href="@{/GetSubmissions(productId=${prod.id})}"
+				th:text="'Click here to show the submissions for ' + ${prod.name}">
+			</a></li>
+
+		</ul>
+	</div>
+	<div th:if="${dailyProducts == null or #lists.isEmpty(dailyProducts)}">
+		<p>No daily product has been created</p>
+	</div>
+
+	<div th:if="${not #lists.isEmpty(submissions)}">
+		<p
+			th:text="'Up to now, the following reviews have been received for product ' + ${submissions(0).product.name}"></p>
+		<ul>
+			<li th:each="sub : ${submissions}"><span
+				th:text="'User: ' + ${sub.user.username}"> </span>
+				<table>
+					<thead>
+						<tr>
+							<th>Question</th>
+							<th>Answer</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="answer : ${sub.answers}">
+							<td data-label="Question" th:text="${answer.question.text}"></td>
+							<td data-label="Answer" th:text="${answer.text}"></td>
+					</tbody>
+				</table></li>
+		</ul>
+	</div>
+	<div th:if="${submissions == null or #lists.isEmpty(submissions)}">
+		<p>Up to now, no reviews have been left</p>
+	</div>
+
+	<div th:unless="${#lists.isEmpty(cancelledSubs)}">
+		<p
+			th:text="'Up to now, the following users have cancelled their reviews for ' + ${submissions(0).product.name}"></p>
+		<ul>
+			<li th:each="sub : ${cancelledSubs}"><span
+				th:text="'User: ' + ${sub.user.username}"> </span></li>
+		</ul>
+	</div>
+	<div th:if="${cancelledSubs == null or #lists.isEmpty(cancelledSubs)}">
+		<p>Up to now, no reviews have been cancelled</p>
+	</div>
+
+</body>
+</html>
