@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "question", schema = "gamified_marketing")
-@NamedQuery(name = "Question.findByProduct", query = "SELECT q FROM Question q WHERE q.product.id = :productID")
+@NamedQuery(name = "Question.findByProduct", query = "SELECT q FROM Question q WHERE q.product.id = :productId")
 public class Question implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

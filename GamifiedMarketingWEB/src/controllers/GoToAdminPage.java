@@ -1,7 +1,9 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,21 +17,18 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import entities.Admin;
-import entities.User;
+import entities.Product;
+import services.ProductService;
 
 @WebServlet("/AdminPage")
 public class GoToAdminPage extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	/*
-	 * @EJB(name = "it.polimi.db2.mission.services/MissionService")
-	 
-	private MissionService mService;
-	@EJB(name = "it.polimi.db2.mission.services/ProjectService")
-	private ProjectService pService;
-	*/
+	
+	@EJB(name = "services/ProductService")
+	private ProductService pService;
+	
 	
 	public GoToAdminPage() {
 		super();
@@ -47,15 +46,15 @@ public class GoToAdminPage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		List<Product> dailyProducts = null;
 		
-		Admin admin = (Admin) session.getAttribute("admin");		
-
+		dailyProducts = pService.getAllProducts();
+		
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/AdminPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		// ctx.setVariable("missions", missions);
-		// ctx.setVariable("projects", projects);
+		ctx.setVariable("dailyProducts", dailyProducts);
 
 		templateEngine.process(path, ctx, response.getWriter());
 	}

@@ -23,9 +23,9 @@
 		<p>No daily product has been created</p>
 	</div>
 
-	<div th:if="${not #lists.isEmpty(submissions)}">
+	<div th:if="${submissions != null}">
 		<p
-			th:text="'Up to now, the following reviews have been received for product ' + ${submissions(0).product.name}"></p>
+			th:text="${#lists.isEmpty(submissions)} ? 'Up to now, no review has been left' : 'Up to now, the following reviews have been received for product ' + ${submissions(0).product.name}"></p>
 		<ul>
 			<li th:each="sub : ${submissions}"><span
 				th:text="'User: ' + ${sub.user.username}"> </span>
@@ -44,20 +44,14 @@
 				</table></li>
 		</ul>
 	</div>
-	<div th:if="${submissions == null or #lists.isEmpty(submissions)}">
-		<p>Up to now, no reviews have been left</p>
-	</div>
 
-	<div th:unless="${#lists.isEmpty(cancelledSubs)}">
+	<div th:if="${cancelledSubs != null}">
 		<p
-			th:text="'Up to now, the following users have cancelled their reviews for ' + ${submissions(0).product.name}"></p>
+			th:text="${#lists.isEmpty(cancelledSubs) ? 'Up to now, no review has been cancelled' : 'Up to now, the following users have cancelled their reviews for ' + ${submissions(0).product.name}"></p>
 		<ul>
 			<li th:each="sub : ${cancelledSubs}"><span
 				th:text="'User: ' + ${sub.user.username}"> </span></li>
 		</ul>
-	</div>
-	<div th:if="${cancelledSubs == null or #lists.isEmpty(cancelledSubs)}">
-		<p>Up to now, no reviews have been cancelled</p>
 	</div>
 
 </body>

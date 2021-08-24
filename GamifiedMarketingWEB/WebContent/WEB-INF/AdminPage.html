@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+	<a th:href="@{/InspectionPage}">Link to inspection page</a>
+
+	<div th:if="${not #lists.isEmpty(dailyProducts)}">
+		<p>Daily products</p>
+		<ul>
+			<li th:each="prod : ${dailyProducts}"><span
+				th:text="'Name: ' + ${prod.name}"> </span> <br> <span
+				th:text="'Date: ' + ${prod.date}"> </span> <br> <a
+				th:href="@{/GetQuestions(productId=${prod.id})}"
+				th:text="'Click here to show the questions for ' + ${prod.name}"></a>
+				<div th:if="${questions != null}">
+					<ul th:each="question : ${questions}">
+						<li><span
+							th:text="'Question' + ${custStat.count} + ': ' + ${question.text}"></span>
+							<br>
+					</ul>
+					<span th:if="${#lists.isEmpty(questions)}">No questions found</span>
+				</div></li>
+		</ul>
+	</div>
 
 </body>
 </html>
