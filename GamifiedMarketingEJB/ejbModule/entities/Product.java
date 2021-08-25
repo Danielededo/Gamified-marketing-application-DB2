@@ -34,6 +34,12 @@ public class Product implements Serializable {
 		// EJB constructor
 	}
 
+	public Product(String name, byte[] image, Date date) {
+		this.name = name;
+		this.image = image;
+		this.date = date;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

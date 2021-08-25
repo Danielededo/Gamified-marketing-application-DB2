@@ -29,6 +29,12 @@ public class Question implements Serializable {
 		// EJB constructor
 	}
 
+	public Question(Product product, String text, Boolean mandatory) {
+		this.product = product;
+		this.text = text;
+		this.mandatory = mandatory;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

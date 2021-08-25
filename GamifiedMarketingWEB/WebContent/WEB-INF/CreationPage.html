@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Create a new questionnaire</title>
+</head>
+<body>
+
+	<h1>Create a new questionnaire</h1>
+
+	<div>
+		<div class="formdiv">
+			<form action="SubmitQuestionnaire" method="POST">
+				<fieldset>
+					<input placeholder="Product name" type="text" name="productName"
+						th:value="${product} ? ${product.name}"
+						required> <br> <br> <input placeholder="Date"
+						th:value="${product} ? ${product.date}"
+						type="date" id="datefield" min="" name="date" required><br>
+					<br> <input placeholder="Upload an image of the product"
+						th:value="${product} ? ${product.image}"
+						type="file" name="img" accept="image/*"><br>
+
+					<ul>
+						<li th:each="question : ${marketingQuestions}"><input
+							type="text" th:value="${question.text}"></li>
+					</ul>
+					<!-- HERE VARIABLE NUMBER OF MARKETING QUESTION -->
+
+					<input type="submit" name="Create Questionnaire" value="Questionnaire">
+					<input type="submit" name="Add Question" value="Add Question">
+				</fieldset>
+			</form>
+		</div>
+	</div>
+
+</body>
+
+<script>
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1; //January is 0 so need to add 1 to make it 1!
+	var yyyy = today.getFullYear();
+	if (dd < 10) {
+		dd = '0' + dd
+	}
+	if (mm < 10) {
+		mm = '0' + mm
+	}
+	today = yyyy + '-' + mm + '-' + dd;
+	document.getElementById("datefield").setAttribute("min", today);
+</script>
+
+</html>

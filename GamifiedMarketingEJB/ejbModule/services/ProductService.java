@@ -42,4 +42,11 @@ public class ProductService {
 		return em.createNamedQuery("Product.getAllProducts", Product.class).getResultList();
 	}
 	
+	public Product addProduct(String name, byte[] image, Date date) {
+		Product product = new Product(name, image, date);
+		em.persist(product);
+		em.flush();
+		return product;
+	}
+	
 }
