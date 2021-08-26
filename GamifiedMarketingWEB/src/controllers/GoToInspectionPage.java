@@ -49,7 +49,7 @@ public class GoToInspectionPage extends HttpServlet {
 		LocalDate today = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
 
 		Admin admin = (Admin) session.getAttribute("admin");
-		List<Product> dailyProducts = null;		
+		List<Product> dailyProducts = null;
 		
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/InspectionPage.html";

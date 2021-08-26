@@ -42,11 +42,33 @@ public class ProductService {
 		return em.createNamedQuery("Product.getAllProducts", Product.class).getResultList();
 	}
 	
+	public List<Product> findPreviousProduct()  {
+		List<Product> aList = null;
+		LocalDate localDate = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
+		Date date = Date.valueOf(localDate);
+		aList = em.createNamedQuery("Product.findPreviousProduct", Product.class).setParameter(1, date).getResultList();
+		if (aList.isEmpty())
+			return null;
+		else
+			return aList;
+	}
+	
 	public Product addProduct(String name, byte[] image, Date date) {
 		Product product = new Product(name, image, date);
 		em.persist(product);
 		em.flush();
 		return product;
 	}
+	
+	public void deleteProduct(Integer productId) {
+        Product product = em.find(Product.class, productId);
+
+        if (product == null) {
+            throw new IllegalArgumentException(String.format("Product with ID = %d does not exist!", productId));
+        }
+
+        em.remove(product);
+        em.flush();
+    }
 	
 }

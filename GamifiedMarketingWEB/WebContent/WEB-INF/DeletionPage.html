@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Delete a questionnaire</title>
+</head>
+<body>
+
+	<h1>Delete a questionnaire</h1>
+	<!-- MOSTRARE IL CALENDARIO CON LE DATE CHE VANNO DAL PASSATO FINO ALLA DATA DI IERI
+		QUANDO L'UTENTE SELEZIONA UNA DATA VIENE MOSTRATO IL PRODOTTO E LA LISTA DELLE DOMANDE
+		IN BASSO CI SARA UN PULSANTE CON LA POSSIBILITA DI ELIMINARE PRODOTTO&QUESTIONARIO -->
+	<form action="DeleteQuestionnaire" method="post">
+				<ul th:each="product: ${products}">
+					<li style="text-align: center"><span th:text="${product.name}"></span></li>
+					<img width="200px"
+						th:src="*{'data:image/png;base64,'+ product.getBase64Image()}">
+					<button type="submit">Delete</button>
+				</ul>
+	</form>
+</body>
+</html>
