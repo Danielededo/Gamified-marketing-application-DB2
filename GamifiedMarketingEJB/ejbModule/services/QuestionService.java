@@ -21,8 +21,9 @@ public class QuestionService {
 		return em.createNamedQuery("Question.findByProduct", Question.class).setParameter("productId", productId).getResultList();
 	}
 	
-	public Question addQuestion(Product product, String text, Boolean mandatory) {
-		Question question = new Question(product, text, mandatory);
+	public Question addQuestion(int productId, String text) {
+		Product product = em.find(Product.class, productId);
+		Question question = new Question(product, text);
 		em.persist(question);
 		em.flush();
 		return question;

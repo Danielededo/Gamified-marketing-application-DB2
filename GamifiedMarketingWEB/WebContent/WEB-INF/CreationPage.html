@@ -9,30 +9,34 @@
 	<h1>Create a new questionnaire</h1>
 
 	<div>
-		<div class="formdiv">
-			<form action="SubmitQuestionnaire" method="POST">
-				<fieldset>
-					<input placeholder="Product name" type="text" name="productName"
-						th:value="${product} ? ${product.name}"
-						required> <br> <br> <input placeholder="Date"
-						th:value="${product} ? ${product.date}"
-						type="date" id="datefield" min="" name="date" required><br>
-					<br> <input placeholder="Upload an image of the product"
-						th:value="${product} ? ${product.image}"
-						type="file" name="img" accept="image/*"><br>
-
-					<ul>
-						<li th:each="question : ${marketingQuestions}"><input
-							type="text" th:value="${question.text}"></li>
-					</ul>
-					<!-- HERE VARIABLE NUMBER OF MARKETING QUESTION -->
-
-					<input type="submit" name="Create Questionnaire" value="Questionnaire">
-					<input type="submit" name="Add Question" value="Add Question">
-				</fieldset>
-			</form>
-		</div>
+		<form action="CreateProduct" method="POST">
+			<input placeholder="Product name" type="text" name="productName"
+				required> <br> <br> <input placeholder="Date"
+				type="date" id="datefield" min="" name="date" required><br>
+			<br> <input placeholder="Upload an image of the product"
+				type="file" name="img" accept="image/*"><br> <input
+				type="submit" name="Add product">
+		</form>
 	</div>
+
+	<h1>Add a marketing question for a product</h1>
+
+
+	<form action="AddQuestion" method="POST">
+			<p>
+				<label for="products">Choose a product:</label> <select name="productId" id="productId">
+					<option th:each="product : ${products}" th:value="${product.id}"
+						th:text="${product.name - product.date}"></option>
+				</select>
+			</p>
+			<p>
+				<textarea id="marketingQuestion" name="marketingQuestion" rows="2"
+					cols="50" required></textarea>
+			</p>
+			<input type="submit" name="AddQuestion">
+	</form>
+
+
 
 </body>
 

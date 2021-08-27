@@ -16,15 +16,17 @@
 				th:text="'Date: ' + ${prod.date}"> </span> <br> <a
 				th:href="@{/GetQuestions(productId=${prod.id})}"
 				th:text="'Click here to show the questions for ' + ${prod.name}"></a>
-				<div th:if="${questions != null}">
-					<ul th:each="question : ${questions}">
-						<li><span
-							th:text="'Question' + ${custStat.count} + ': ' + ${question.text}"></span>
-							<br>
-					</ul>
-					<span th:if="${#lists.isEmpty(questions)}">No questions found</span>
-				</div></li>
+			</li>
 		</ul>
+	</div>
+
+	<div th:if="${questions != null}">
+		<ul th:each="question : ${questions}">
+			<li><span
+				th:text="'Question' + ${custStat.count} + ': ' + ${question.text}"></span>
+				<br>
+		</ul>
+		<span th:if="${#lists.isEmpty(questions)}">No questions found</span>
 	</div>
 
 </body>

@@ -63,7 +63,7 @@ public class GetQuestions extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "No questions inconsistency");
 			return;
 		}
-		String path = "/AdminPage";
+		String path = "/InspectionPage";
 		request.setAttribute("questions", questions);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
 		dispatcher.forward(request, response);

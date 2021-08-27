@@ -23,16 +23,14 @@ public class Question implements Serializable {
 	@JoinColumn(name = "product")
 	private Product product;
 	private String text;
-	private Boolean mandatory;
 	
 	public Question() {
 		// EJB constructor
 	}
 
-	public Question(Product product, String text, Boolean mandatory) {
+	public Question(Product product, String text) {
 		this.product = product;
 		this.text = text;
-		this.mandatory = mandatory;
 	}
 	
 	public Integer getId() {
@@ -59,12 +57,5 @@ public class Question implements Serializable {
 		this.text = text;
 	}
 
-	public Boolean getMandatory() {
-		return mandatory;
-	}
-
-	public void setMandatory(Boolean mandatory) {
-		this.mandatory = mandatory;
-	}
 
 }

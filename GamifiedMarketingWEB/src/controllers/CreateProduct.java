@@ -26,8 +26,8 @@ import services.UserService;
 /**
  * Servlet implementation class Creation
  */
-@WebServlet("/SubmitQuestionnaire")
-public class SubmitQuestionnaire extends HttpServlet {
+@WebServlet("/CreateProduct")
+public class CreateProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	
@@ -40,7 +40,7 @@ public class SubmitQuestionnaire extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SubmitQuestionnaire() {
+    public CreateProduct() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -82,9 +82,9 @@ public class SubmitQuestionnaire extends HttpServlet {
         Product product = productService.addProduct(name, b, dateProd);
         //same for each question
         
-        String path = "/GoToCreationPage";
-        RequestDispatcher dispatcher = request.getRequestDispatcher(path);
-		dispatcher.forward(request, response);
+		String path = getServletContext().getContextPath() + "/GoToCreationPage";
+		response.sendRedirect(path);
+       
 	}
 
 }

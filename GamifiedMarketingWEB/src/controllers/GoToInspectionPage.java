@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.persistence.NonUniqueResultException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -24,11 +25,15 @@ import entities.Admin;
 import entities.Product;
 import entities.Submission;
 import entities.User;
+import services.ProductService;
+import services.SubmissionService;
 
 @WebServlet("/InspectionPage")
 public class GoToInspectionPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
+	@EJB(name = "services/ProductService")
+	private ProductService productService;
 	
 	public GoToInspectionPage() {
 		super();
@@ -51,7 +56,9 @@ public class GoToInspectionPage extends HttpServlet {
 		Admin admin = (Admin) session.getAttribute("admin");
 		List<Product> dailyProducts = null;
 		
-		// Redirect to the Home page and add missions to the parameters
+		dailyProducts = productService.getAllProducts();
+		
+		// Redirect to the inpsection page and add the daily products list to the parameters
 		String path = "/WEB-INF/InspectionPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

@@ -14,9 +14,8 @@
 				width="200px"
 				th:src="*{'data:image/png;base64,'+ prod.getBase64Image()}"> <br>
 				<a th:href="@{/GetSubmissions(productId=${prod.id})}"
-				th:text="'Click here to show the submissions for ' + ${prod.name}">
-			</a></li>
-
+				th:text="'Click here to show the submissions for ' + ${prod.name}"></a>
+			</li>
 		</ul>
 	</div>
 	<div th:if="${dailyProducts == null or #lists.isEmpty(dailyProducts)}">
@@ -25,7 +24,9 @@
 
 	<div th:if="${submissions != null}">
 		<p
-			th:text="${#lists.isEmpty(submissions)} ? 'Up to now, no review has been left' : 'Up to now, the following reviews have been received for product ' + ${submissions(0).product.name}"></p>
+			th:text="${#lists.isEmpty(submissions)} ? 'Up to now, no review has been left' : 'Up to now, the following ' + 
+			'reviews have been received for product ' + ${submissions(0).product.name}">
+		</p>
 		<ul>
 			<li th:each="sub : ${submissions}"><span
 				th:text="'User: ' + ${sub.user.username}"> </span>
@@ -52,6 +53,15 @@
 			<li th:each="sub : ${cancelledSubs}"><span
 				th:text="'User: ' + ${sub.user.username}"> </span></li>
 		</ul>
+	</div>
+
+	<div th:if="${questions != null}">
+		<ul th:each="question : ${questions}">
+			<li><span
+				th:text="'Question' + ${custStat.count} + ': ' + ${question.text}"></span>
+				<br>
+		</ul>
+		<span th:if="${#lists.isEmpty(questions)}">No questions found</span>
 	</div>
 
 </body>
