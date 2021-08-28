@@ -29,6 +29,17 @@ public class Answer implements Serializable {
 	private Question question;
 	private String text;
 	
+	public Answer() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Answer(Question question, String text) {
+		super();
+		this.question = question;
+		this.text = text;
+	}
+
 	public Integer getId() {
 		return id;
 	}

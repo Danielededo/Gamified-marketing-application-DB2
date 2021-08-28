@@ -40,10 +40,12 @@
 					</tbody>
 				</table></li>
 		</ul>
+		<a th:href="@{/GoToQuestionnairePage}"> Access the questionnaire of the day</a>
 	</div>
 	<div th:if="${submissions == null or #lists.isEmpty(submissions)}">
 		<p>Up to now, no reviews have been received</p>
 	</div>
+	
 
 </body>
 </html>
