@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Table(name = "submission", schema = "gamified_marketing")
 @NamedQuery(name = "Submission.findByUsername", query = "SELECT s FROM Submission s WHERE s.user.username = :username")
 @NamedQuery(name = "Submission.findByProduct", query = "SELECT s FROM Submission s WHERE s.product.id = :productId AND s.cancelled = FALSE")
-@NamedQuery(name = "Submission.findCanceledByProduct", query = "SELECT s FROM Submission s WHERE s.product.id = :productId AND s.cancelled = TRUE")
+@NamedQuery(name = "Submission.findCancelledByProduct", query = "SELECT s FROM Submission s WHERE s.product.id = :productId AND s.cancelled = TRUE")
 @NamedQuery(name = "Submission.findByDate", query = "SELECT s FROM Submission s WHERE s.product.date = :dateNow ORDER BY s.points DESC")
 public class Submission implements Serializable {
 	private static final long serialVersionUID = 1L;

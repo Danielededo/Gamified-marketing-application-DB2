@@ -53,6 +53,10 @@ public class ProductService {
 			return aList;
 	}
 	
+	public Product getProductById(int productId) {
+		return em.createNamedQuery("Product.getProductById", Product.class).setParameter("productId", productId).getSingleResult();
+	}
+	
 	public Product addProduct(String name, byte[] image, Date date) {
 		Product product = new Product(name, image, date);
 		em.persist(product);

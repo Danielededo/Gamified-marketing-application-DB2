@@ -6,6 +6,7 @@ import java.util.List;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -59,21 +60,20 @@ public class CreateProduct extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("productName");
 		String date = request.getParameter("date");
+		Date dateProd = Date.valueOf(date);
 		String image = request.getParameter("img");
 		byte[] b = image.getBytes(StandardCharsets.UTF_8);
-		
-		//List<Question> questions = ;
-		
 		DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
-		Date dateProd = null;
-		boolean dateTaken = false;
 		
 		List<Product> products = productService.getAllProducts();
-		for(int i=0;i<products.size();i++) {
-			if(dateFormat.format(products.get(i).getDate()) == date)
-				dateProd = products.get(i).getDate();
+
+		boolean dateTaken = false;
+		for(Product p: products) {
+			if(p.getDate().equals(dateProd)) {
 				dateTaken = true;
+			}
 		}
+		
         if (dateTaken) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "There is already a questionnaire scheduled for the selected date");
             return;
@@ -82,7 +82,7 @@ public class CreateProduct extends HttpServlet {
         Product product = productService.addProduct(name, b, dateProd);
         //same for each question
         
-		String path = getServletContext().getContextPath() + "/GoToCreationPage";
+		String path = getServletContext().getContextPath() + "/CreationPage";
 		response.sendRedirect(path);
        
 	}

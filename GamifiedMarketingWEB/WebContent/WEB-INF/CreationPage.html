@@ -15,7 +15,7 @@
 				type="date" id="datefield" min="" name="date" required><br>
 			<br> <input placeholder="Upload an image of the product"
 				type="file" name="img" accept="image/*"><br> <input
-				type="submit" name="Add product">
+				type="submit" value="Add product">
 		</form>
 	</div>
 
@@ -26,17 +26,15 @@
 			<p>
 				<label for="products">Choose a product:</label> <select name="productId" id="productId">
 					<option th:each="product : ${products}" th:value="${product.id}"
-						th:text="${product.name - product.date}"></option>
+						th:text="${product.name} + ' ' + ${product.date}"></option>
 				</select>
 			</p>
 			<p>
 				<textarea id="marketingQuestion" name="marketingQuestion" rows="2"
 					cols="50" required></textarea>
 			</p>
-			<input type="submit" name="AddQuestion">
+			<input type="submit" value="AddQuestion">
 	</form>
-
-
 
 </body>
 

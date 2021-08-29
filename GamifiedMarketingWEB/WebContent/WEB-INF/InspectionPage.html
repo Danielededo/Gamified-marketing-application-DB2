@@ -5,21 +5,39 @@
 <title>InspectionPage</title>
 </head>
 <body>
-	<div th:if="${not #lists.isEmpty(dailyProducts)}">
-		<p>Up to now, the following daily products have been created:</p>
-		<ul>
-			<li th:each="prod : ${dailyProducts}"><span
-				th:text="'Name: ' + ${prod.name}"> </span> <br> <span
-				th:text="'Date: ' + ${prod.date}"> </span> <br> <img
-				width="200px"
-				th:src="*{'data:image/png;base64,'+ prod.getBase64Image()}"> <br>
-				<a th:href="@{/GetSubmissions(productId=${prod.id})}"
-				th:text="'Click here to show the submissions for ' + ${prod.name}"></a>
-			</li>
-		</ul>
-	</div>
+
+	<form th:if="${not #lists.isEmpty(dailyProducts)}" action="GetInfo"
+		method="GET">
+		<p>
+			<label for="products">Choose a product to inspect:</label> <select
+				name="productId" id="productId">
+				<option th:each="product : ${dailyProducts}"
+					th:value="${product.id}"
+					th:text="${product.name} + ' ' + ${product.date}"></option>
+			</select>
+		</p>
+		<input type="submit" value="Inspect">
+	</form>
+
 	<div th:if="${dailyProducts == null or #lists.isEmpty(dailyProducts)}">
 		<p>No daily product has been created</p>
+	</div>
+
+	<div th:if="${prod != null}">
+		<span th:text="'Name: ' + ${prod.name}"> </span> <br> <span
+			th:text="'Date: ' + ${prod.date}"> </span> <br> <img
+			width="200px"
+			th:src="*{'data:image/png;base64,'+ prod.getBase64Image()}">
+	</div>
+
+	<div th:if="${questions != null}">
+		<span>Questions: </span> <br>
+		<ul>
+			<li th:each="question : ${questions}"><span
+				th:text="${question.text}"></span> <br>
+		</ul>
+		<span th:if="${#lists.isEmpty(questions)}">No marketing
+			questions found</span>
 	</div>
 
 	<div th:if="${submissions != null}">
@@ -48,20 +66,11 @@
 
 	<div th:if="${cancelledSubs != null}">
 		<p
-			th:text="${#lists.isEmpty(cancelledSubs) ? 'Up to now, no review has been cancelled' : 'Up to now, the following users have cancelled their reviews for ' + ${submissions(0).product.name}"></p>
+			th:text="${#lists.isEmpty(cancelledSubs)} ? 'Up to now, no review has been cancelled' : 'Up to now, the following users have cancelled their reviews for ' + ${submissions(0).product.name}"></p>
 		<ul>
 			<li th:each="sub : ${cancelledSubs}"><span
 				th:text="'User: ' + ${sub.user.username}"> </span></li>
 		</ul>
-	</div>
-
-	<div th:if="${questions != null}">
-		<ul th:each="question : ${questions}">
-			<li><span
-				th:text="'Question' + ${custStat.count} + ': ' + ${question.text}"></span>
-				<br>
-		</ul>
-		<span th:if="${#lists.isEmpty(questions)}">No questions found</span>
 	</div>
 
 </body>

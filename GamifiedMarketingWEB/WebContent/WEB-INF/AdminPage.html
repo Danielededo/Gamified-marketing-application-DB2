@@ -6,28 +6,9 @@
 </head>
 <body>
 	<a th:href="@{/CreationPage}">Link to creation page</a>
+	<br>
 	<a th:href="@{/InspectionPage}">Link to inspection page</a>
-
-	<div th:if="${not #lists.isEmpty(dailyProducts)}">
-		<p>Daily products</p>
-		<ul>
-			<li th:each="prod : ${dailyProducts}"><span
-				th:text="'Name: ' + ${prod.name}"> </span> <br> <span
-				th:text="'Date: ' + ${prod.date}"> </span> <br> <a
-				th:href="@{/GetQuestions(productId=${prod.id})}"
-				th:text="'Click here to show the questions for ' + ${prod.name}"></a>
-			</li>
-		</ul>
-	</div>
-
-	<div th:if="${questions != null}">
-		<ul th:each="question : ${questions}">
-			<li><span
-				th:text="'Question' + ${custStat.count} + ': ' + ${question.text}"></span>
-				<br>
-		</ul>
-		<span th:if="${#lists.isEmpty(questions)}">No questions found</span>
-	</div>
+	
 
 </body>
 </html>

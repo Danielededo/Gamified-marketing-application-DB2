@@ -26,10 +26,6 @@ public class GoToAdminPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	
-	@EJB(name = "services/ProductService")
-	private ProductService pService;
-	
-	
 	public GoToAdminPage() {
 		super();
 	}
@@ -47,14 +43,11 @@ public class GoToAdminPage extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		List<Product> dailyProducts = null;
-		
-		dailyProducts = pService.getAllProducts();
-		
+				
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/AdminPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("dailyProducts", dailyProducts);
 
 		templateEngine.process(path, ctx, response.getWriter());
 	}

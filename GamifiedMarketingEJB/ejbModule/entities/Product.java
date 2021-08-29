@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "product", schema = "gamified_marketing")
+@NamedQuery(name = "Product.getProductById", query = "SELECT p FROM Product p WHERE p.id = :productId")
 @NamedQuery(name = "Product.getAllProducts", query = "SELECT p FROM Product p ORDER BY p.date DESC")
 @NamedQuery(name = "Product.findDailyProduct", query = "SELECT p FROM Product p WHERE p.date = ?1")
 @NamedQuery(name = "Product.findPreviousProduct", query = "SELECT p FROM Product p WHERE p.date < ?1")
