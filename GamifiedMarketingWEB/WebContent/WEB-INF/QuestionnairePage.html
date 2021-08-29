@@ -8,12 +8,12 @@
 
 	<h1>Fill the questionnaire</h1>
 
-	<form th:unless="${statistic}" action="SubmitMarketingQuestions"
+	<form th:unless="${statistic}" action="SubmitMarketingAnswers"
 		method="POST">
 		<fieldset>
 			<ul>
 				<li th:each="question : ${questions}">
-					<p th:text="${question.text}"></p> <textarea name="${question.id}"
+					<p th:text="${question.text}"></p> <textarea name="'question' + ${question.id}"
 						rows="2" cols="50" required></textarea>
 				</li>
 			</ul>
@@ -34,6 +34,7 @@
 				<option value="Medium">High</option>
 			</select>
 		</fieldset>
+		<input type="submit" value="Submit answers">
 	</form>
 
 </body>

@@ -24,29 +24,27 @@ import entities.Question;
 import services.ProductService;
 import services.QuestionService;
 
-/**
- * Servlet implementation class SubmitMarketingQuestions
- */
-@WebServlet("/SubmitMarketingQuestions")
-public class SubmitMarketingQuestions extends HttpServlet {
+@WebServlet("/SubmitQuestionnaire")
+public class SubmitQuestionnaire extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
-       
+
 	private TemplateEngine templateEngine;
-	
+
 	@EJB(name = "services/ProductService") 
 	private ProductService productService;
 	@EJB(name = "services/SubmissionService")
 	private QuestionService questionService;
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SubmitMarketingQuestions() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
-    public void init() throws ServletException {
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public SubmitQuestionnaire() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
 		templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -55,36 +53,21 @@ public class SubmitMarketingQuestions extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		int age = Integer.parseInt(request.getParameter("age"));
+		String sex = request.getParameter("sex");
+		String expertise = request.getParameter("expertise");
 		
-		Product dailyProduct = productService.findDailyProduct();
-		Integer productId = dailyProduct.getId();
-		List<Question> questions = questionService.getQuestions(productId);
-		List<Answer> answers = new ArrayList();
+		System.out.println(request.getAttribute("question2"));
+
 		String text;
 		String id = null;
-		for(Question q: questions) {
-			id = Integer.toString(q.getId());
-			text = StringEscapeUtils.escapeJava(request.getParameter(id));
-			answers.add(new Answer(q, text));
-		}
 		
-		String path = "/GoToQuestionnairePage";
-		request.setAttribute("marketingAnswers", answers);
-		request.setAttribute("statistic", true);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
-		dispatcher.forward(request, response);
+		
+
+		String path = getServletContext().getContextPath() + "/GreetingsPage";
+		response.sendRedirect(path);
 	}
 
 }

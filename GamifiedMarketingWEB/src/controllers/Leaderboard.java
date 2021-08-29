@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -15,6 +17,7 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import entities.Submission;
 import services.SubmissionService;
 
 @WebServlet("/Leaderboard")
@@ -22,10 +25,10 @@ public class Leaderboard extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	
+
 	@EJB(name = "services/SubmissionService")
-    private SubmissionService submissionService;
-	
+	private SubmissionService submissionService;
+
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
@@ -34,16 +37,22 @@ public class Leaderboard extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		String path = "/WEB-INF/Leaderboard.html";
-        ctx.setVariable("submissions", submissionService.findLeaderboard());
-        
-        templateEngine.process(path, ctx, response.getWriter());
-    }
-	
+		List<Submission> submissions;
+
+		try {
+			submissions = submissionService.findLeaderboard();
+		} catch (NullPointerException npe) {
+			submissions = new ArrayList<Submission>();
+		}
+		ctx.setVariable("submissions", submissions);
+		templateEngine.process(path, ctx, response.getWriter());
+	}
+
 	public void destroy() {
 	}
 }

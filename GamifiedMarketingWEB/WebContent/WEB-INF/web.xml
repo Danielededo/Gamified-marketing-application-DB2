@@ -13,6 +13,10 @@
   <filter-mapping> 
     <filter-name>LoginFilter</filter-name> 
     <url-pattern>/Home</url-pattern>
+	<url-pattern>/GreetingsPage</url-pattern>
+	<url-pattern>/Leaderboard</url-pattern>
+	<url-pattern>/QuestionnairePage</url-pattern>
+	<url-pattern>/SubmitMarketingAnswers</url-pattern>
   </filter-mapping>
 
 	<filter>
@@ -21,7 +25,13 @@
  </filter> 
   <filter-mapping> 
     <filter-name>AdminFilter</filter-name> 
-    <url-pattern>/AdminPage</url-pattern>
+    <url-pattern>/DeletionPage</url-pattern>
+	<url-pattern>/DeleteQuestionnaire</url-pattern>
+	<url-pattern>/InspectionPage</url-pattern>
+	<url-pattern>/GetInfo</url-pattern>
+	<url-pattern>/CreationPage</url-pattern>
+	<url-pattern>/CreateProduct</url-pattern>
+	<url-pattern>/AddQuestion</url-pattern>
   </filter-mapping>
 
 

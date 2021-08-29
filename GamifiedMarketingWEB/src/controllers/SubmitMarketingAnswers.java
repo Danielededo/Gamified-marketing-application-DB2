@@ -1,9 +1,11 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,23 +13,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import entities.Answer;
 import entities.Product;
 import entities.Question;
 import services.ProductService;
 import services.QuestionService;
-import services.SubmissionService;
 
 /**
- * Servlet implementation class GoToQuestionnairePage
+ * Servlet implementation class SubmitMarketingQuestions
  */
-@WebServlet("/QuestionnairePage")
-public class GoToQuestionnairePage extends HttpServlet {
+@WebServlet("/SubmitMarketingAnswers")
+public class SubmitMarketingAnswers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private TemplateEngine templateEngine;
@@ -36,12 +37,15 @@ public class GoToQuestionnairePage extends HttpServlet {
 	private ProductService productService;
 	@EJB(name = "services/SubmissionService")
 	private QuestionService questionService;
-
-    public GoToQuestionnairePage() {
+	
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public SubmitMarketingAnswers() {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    
     public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
@@ -50,25 +54,29 @@ public class GoToQuestionnairePage extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-    
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Product dailyProduct = productService.findDailyProduct();
 		Integer productId = dailyProduct.getId();
 		List<Question> questions = questionService.getQuestions(productId);
+		List<Answer> answers = new ArrayList();
+		String text;
+		String id = null;
+		for(Question q: questions) {
+			id = Integer.toString(q.getId());
+			text = StringEscapeUtils.escapeJava(request.getParameter(id));
+			answers.add(new Answer(q, text));
+		}
 		
-		String path = "/WEB-INF/QuestionnairePage.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("dailyProduct", dailyProduct);
-		ctx.setVariable("questions", questions);
-		
-		templateEngine.process(path, ctx, response.getWriter());
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String path = "/QuestionnairePage";
+		request.setAttribute("marketingAnswers", answers);
+		request.setAttribute("statistic", true);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
+		dispatcher.forward(request, response);
 	}
 
 }

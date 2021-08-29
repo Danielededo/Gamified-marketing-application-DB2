@@ -16,7 +16,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 /**
  * Servlet implementation class GoToGreetingsPage
  */
-@WebServlet("/GoToGreetingsPage")
+@WebServlet("/GreetingsPage")
 public class GoToGreetingsPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
