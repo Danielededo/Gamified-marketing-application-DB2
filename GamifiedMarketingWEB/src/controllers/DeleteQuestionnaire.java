@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.thymeleaf.TemplateEngine;
 
 import entities.Product;
+import entities.Question;
 import services.ProductService;
 import services.QuestionService;
 
@@ -48,8 +49,10 @@ public class DeleteQuestionnaire extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String productId = request.getParameter("productId");
-        productService.deleteProduct(Integer.parseInt(productId));
+		Integer prod = Integer.parseInt(productId);
+        productService.deleteProduct(prod);
         //same for each question
+        
         
         String path = "/DeletionPage";
         RequestDispatcher dispatcher = request.getRequestDispatcher(path);
