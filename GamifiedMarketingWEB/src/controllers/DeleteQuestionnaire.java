@@ -47,8 +47,13 @@ public class DeleteQuestionnaire extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String productId = request.getParameter("productId");
+        productService.deleteProduct(Integer.parseInt(productId));
+        //same for each question
+        
+        String path = "/DeletionPage";
+        RequestDispatcher dispatcher = request.getRequestDispatcher(path);
+		dispatcher.forward(request, response);
 	}
 
 	/**
@@ -56,13 +61,7 @@ public class DeleteQuestionnaire extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-        
-        //productService.deleteProduct(productId);
-        //same for each question
-        
-        String path = "/GoToDeletionPage";
-        RequestDispatcher dispatcher = request.getRequestDispatcher(path);
-		dispatcher.forward(request, response);
+		
 	}
 
 }

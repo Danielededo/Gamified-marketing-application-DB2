@@ -64,8 +64,9 @@ public class ProductService {
 		return product;
 	}
 	
-	public void deleteProduct(Integer productId) {
+	public void deleteProduct(int productId) {
         Product product = em.find(Product.class, productId);
+        
 
         if (product == null) {
             throw new IllegalArgumentException(String.format("Product with ID = %d does not exist!", productId));

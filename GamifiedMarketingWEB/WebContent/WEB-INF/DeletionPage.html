@@ -6,17 +6,29 @@
 </head>
 <body>
 
-	<h1>Delete a questionnaire</h1>
-	<!-- MOSTRARE IL CALENDARIO CON LE DATE CHE VANNO DAL PASSATO FINO ALLA DATA DI IERI
-		QUANDO L'UTENTE SELEZIONA UNA DATA VIENE MOSTRATO IL PRODOTTO E LA LISTA DELLE DOMANDE
-		IN BASSO CI SARA UN PULSANTE CON LA POSSIBILITA DI ELIMINARE PRODOTTO&QUESTIONARIO -->
-	<form action="DeleteQuestionnaire" method="post">
-				<ul th:each="product: ${products}">
-					<li style="text-align: center"><span th:text="${product.name}"></span></li>
-					<img width="200px"
-						th:src="*{'data:image/png;base64,'+ product.getBase64Image()}">
-					<button type="submit">Delete</button>
-				</ul>
-	</form>
+	<h1>Delete past product and its questionnaire</h1>
+	
+	<table th:unless="${#lists.isEmpty(products)}" style="width: 50%">
+		<thead>
+			<tr>
+				<th>Product</th>
+				<th>Image</th>
+				<th>Date</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="product: ${products}">
+				<td style="text-align: center"><span
+					th:text="${product.name}">Product</span></td>
+				<td style="text-align: center"><img th:if="${product.image} != null" width="150px"
+					th:src="*{'data:image/png;base64,'+ product.getBase64Image()}"></td>
+				<td style="text-align: center"><span
+					th:text="${product.date}">Date</span></td>
+				<td><a th:href="@{'/DeleteQuestionnaire?productId=' + ${product.id}}"> Delete</a></td>
+			</tr>
+		</tbody>
+	</table>
+	 <p th:if="${#lists.isEmpty(products)}">There are no past products</p>
 </body>
 </html>
