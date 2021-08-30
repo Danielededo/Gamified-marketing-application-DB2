@@ -42,6 +42,7 @@ public class UserService {
 		User u = list.get(0);
 		u.setBanned(true);
 		em.persist(u);
+		em.flush();
 	}
 	
 }

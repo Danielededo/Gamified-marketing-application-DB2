@@ -38,6 +38,8 @@ public class SubmissionService {
 		LocalDate localDate = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
 		Date date = Date.valueOf(localDate);
 		List<Submission> leaderboard = em.createNamedQuery("Submission.findByDate", Submission.class).setParameter("dateNow", date).getResultList();
+		for(Submission s: leaderboard)
+			em.refresh(s);
 		return leaderboard;
 	}
 
@@ -80,6 +82,7 @@ public class SubmissionService {
 			sub.addAnswer(answer);
 		}
 		em.persist(sub);
+		em.flush();
 		return sub;
 	}
 
