@@ -3,27 +3,16 @@
 	var marketingAnswers, statisticalAnswers;
 	
 	window.addEventListener("load", () => {
-		user = sessionStorage.getItem("username");
-		if (user == null) {
-			window.location.href = "index.html";
-		} else {
-				pageOrchestrator.start();
-			}
+		pageOrchestrator.start();
+		
 	}, false);
 	
 	document.getElementById("backToMarketing_button").addEventListener('click', (e) => {
-		e.preventDefault();
 		pageOrchestrator.start();
 	});
 
 	document.getElementById("goToStatistics_button").addEventListener('click', (e) => {
-		e.preventDefault();
 		pageOrchestrator.showStatsPart();
-	});
-	
-	document.getElementById("submitAnswers_button").addEventListener('click', (e) => {
-		e.preventDefault();
-		
 	});
 	
 	/*
@@ -72,4 +61,4 @@
 	}
 	
 	
-})
+}());

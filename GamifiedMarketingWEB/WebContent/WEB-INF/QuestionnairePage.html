@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Questionnaire Page</title>
-<script src="utils.js"></script>
-<script src="questionnaireHandler.js"></script>
+<script data-th-src="@{/utils.js}" src="utils.js" charset="utf-8" defer></script>
+<script data-th-src="@{/questionnaireHandler.js}"
+	src="questionnaireHandler.js" charset="utf-8" defer></script>
 
 </head>
 <body>
 
 	<h1>Fill the questionnaire</h1>
-
 	<form action="SubmitQuestionnaire" method="POST">
 		<div id="marketingAnswers_div">
 			<fieldset>
@@ -21,13 +21,11 @@
 							required></textarea>
 					</li>
 				</ul>
-				<button id="goToStatistics_button">Continue</button>
+				<button type="button" id="goToStatistics_button" name="continue">Continue</button>
 			</fieldset>
 		</div>
 		<br>
 		<div id="statisticalAnswers_div">
-			<button id="backToMarketing_button">Go back to the marketing
-				questions</button>
 			<fieldset>
 				<label>Age </label><input type="number" name="age" min="6" max="130"><br>
 				<br> <label for="sex">Sex </label><select name="sex" id="sex">
@@ -38,7 +36,9 @@
 					<option value="Low">Low</option>
 					<option value="Medium">Medium</option>
 					<option value="Medium">High</option>
-				</select> <input type="submit" value="Submit Answers">
+				</select> <br> <input type="submit" value="Submit Answers"> <br>
+				<button type="button" id="backToMarketing_button" name="back">Go
+					back to the marketing questions</button>
 			</fieldset>
 		</div>
 	</form>

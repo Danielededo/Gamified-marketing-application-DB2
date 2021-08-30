@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -21,8 +22,10 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import entities.Answer;
 import entities.Product;
 import entities.Question;
+import services.AnswerService;
 import services.ProductService;
 import services.QuestionService;
+import services.SubmissionService;
 
 @WebServlet("/SubmitQuestionnaire")
 public class SubmitQuestionnaire extends HttpServlet {
@@ -33,8 +36,15 @@ public class SubmitQuestionnaire extends HttpServlet {
 
 	@EJB(name = "services/ProductService") 
 	private ProductService productService;
-	@EJB(name = "services/SubmissionService")
+	
+	@EJB(name = "services/QuestionService") 
 	private QuestionService questionService;
+	
+	@EJB(name = "services/SubmissionService")
+	private SubmissionService submissionService;
+	
+	@EJB(name = "services/AnswerService")
+	private AnswerService answerService;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -54,15 +64,18 @@ public class SubmitQuestionnaire extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		int age = Integer.parseInt(request.getParameter("age"));
 		String sex = request.getParameter("sex");
 		String expertise = request.getParameter("expertise");
+		String[] parAnswers = request.getParameterValues("answers[]");
 		
-		System.out.println(request.getAttribute("question2"));
-
-		String text;
-		String id = null;
+		if (parAnswers == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No answers found");
+            return;
+        }
+		
+		 List<String> answers = Arrays.asList(parAnswers);
 		
 		
 

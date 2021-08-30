@@ -34,7 +34,7 @@ public class GoToQuestionnairePage extends HttpServlet {
 	
 	@EJB(name = "services/ProductService") 
 	private ProductService productService;
-	@EJB(name = "services/SubmissionService")
+	@EJB(name = "services/QuestionService")
 	private QuestionService questionService;
 
     public GoToQuestionnairePage() {

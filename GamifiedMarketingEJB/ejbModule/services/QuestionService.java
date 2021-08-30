@@ -18,7 +18,9 @@ public class QuestionService {
 	}
 	
 	public List<Question> getQuestions(Integer productId) {
-		return em.createNamedQuery("Question.findByProduct", Question.class).setParameter("productId", productId).getResultList();
+		return em.createNamedQuery("Question.findByProduct", Question.class)
+				.setParameter("productId", productId)
+				.getResultList();
 	}
 	
 	public Question addQuestion(int productId, String text) {
