@@ -40,8 +40,12 @@ public class GoToBannedPage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
 
-		String path = "/WEB-INF/GreetingsPage.html";
+		String path = "/WEB-INF/BannedPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
