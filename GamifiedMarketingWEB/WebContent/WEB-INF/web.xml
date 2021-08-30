@@ -30,7 +30,7 @@
 	<url-pattern>/GreetingsPage</url-pattern>
 	<url-pattern>/Leaderboard</url-pattern>
 	<url-pattern>/QuestionnairePage</url-pattern>
-	<url-pattern>/SubmitMarketingAnswers</url-pattern>
+	<url-pattern>/SubmitQuestionnaire</url-pattern>
   </filter-mapping>
 
 	<filter>
@@ -46,7 +46,6 @@
 	<url-pattern>/CreationPage</url-pattern>
 	<url-pattern>/CreateProduct</url-pattern>
 	<url-pattern>/AddQuestion</url-pattern>
-	<url-pattern>/SubmitQuestionnaire</url-pattern>
   </filter-mapping>
 	
 		  <filter>
