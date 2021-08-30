@@ -34,10 +34,11 @@ public class Answer implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Answer(Question question, String text) {
+	public Answer(Submission sub, Question question, String text) {
 		super();
 		this.question = question;
 		this.text = text;
+		this.submission = sub;
 	}
 
 	public Integer getId() {

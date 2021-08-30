@@ -16,6 +16,20 @@
 	<url-pattern>/GreetingsPage</url-pattern>
 	<url-pattern>/Leaderboard</url-pattern>
 	<url-pattern>/QuestionnairePage</url-pattern>
+	<url-pattern>/SubmitQuestionnaire</url-pattern>
+	<url-pattern>/Banned</url-pattern>
+  </filter-mapping>
+
+	 <filter>
+  <filter-name>BannedFilter</filter-name> 
+      <filter-class>filters.BannedFilter</filter-class> 
+ </filter> 
+  <filter-mapping> 
+    <filter-name>BannedFilter</filter-name> 
+    <url-pattern>/Home</url-pattern>
+	<url-pattern>/GreetingsPage</url-pattern>
+	<url-pattern>/Leaderboard</url-pattern>
+	<url-pattern>/QuestionnairePage</url-pattern>
 	<url-pattern>/SubmitMarketingAnswers</url-pattern>
   </filter-mapping>
 
@@ -32,6 +46,17 @@
 	<url-pattern>/CreationPage</url-pattern>
 	<url-pattern>/CreateProduct</url-pattern>
 	<url-pattern>/AddQuestion</url-pattern>
+	<url-pattern>/SubmitQuestionnaire</url-pattern>
+  </filter-mapping>
+	
+		  <filter>
+  <filter-name>GreetingsFilter</filter-name> 
+      <filter-class>filters.GreetingsFilter</filter-class> 
+ </filter> 
+  <filter-mapping> 
+    <filter-name>GreetingsFilter</filter-name> 
+	<url-pattern>/QuestionnairePage</url-pattern>
+	<url-pattern>/SubmitQuestionnaire</url-pattern>
   </filter-mapping>
 
 

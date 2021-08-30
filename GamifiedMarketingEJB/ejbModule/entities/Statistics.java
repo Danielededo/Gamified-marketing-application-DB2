@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -21,9 +22,10 @@ public class Statistics implements Serializable{
 	private Integer id;
 	
 	@OneToOne
+	@JoinColumn(name = "submission")
 	private Submission submission;
 	
-	private String age;
+	private int age;
 	private String sex;
 	private String expertise;
 	
@@ -32,7 +34,7 @@ public class Statistics implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Statistics(Submission submission, String age, String sex, String expertise) {
+	public Statistics(Submission submission, int age, String sex, String expertise) {
 		super();
 		this.submission = submission;
 		this.age = age;
@@ -40,10 +42,14 @@ public class Statistics implements Serializable{
 		this.expertise = expertise;
 	}
 	
-	public String getAge() {
+	public Statistics(int age, String sex2, String expertise2) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getAge() {
 		return age;
 	}
-	public void setAge(String age) {
+	public void setAge(int age) {
 		this.age = age;
 	}
 	public String getSex() {

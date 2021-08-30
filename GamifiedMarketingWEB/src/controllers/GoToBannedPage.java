@@ -20,28 +20,16 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import entities.Product;
-import entities.Submission;
-import entities.User;
-
-/**
- * Servlet implementation class GoToGreetingsPage
- */
-@WebServlet("/GreetingsPage")
-public class GoToGreetingsPage extends HttpServlet {
+@WebServlet("/Banned")
+public class GoToBannedPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
 	private TemplateEngine templateEngine;
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public GoToGreetingsPage() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
-    public void init() throws ServletException {
+
+	public GoToBannedPage() {
+		super();
+	}
+
+	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
 		templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -50,17 +38,12 @@ public class GoToGreetingsPage extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		LocalDate today = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-		User user = (User) session.getAttribute("user");
-		
-		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/GreetingsPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("user", user);
 
 		templateEngine.process(path, ctx, response.getWriter());
 	}
@@ -68,9 +51,6 @@ public class GoToGreetingsPage extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
-	}
-
-	public void destroy() {
 	}
 
 }
