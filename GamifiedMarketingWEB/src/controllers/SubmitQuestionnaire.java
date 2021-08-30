@@ -22,6 +22,8 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import entities.Answer;
 import entities.Product;
 import entities.Question;
+import entities.Statistics;
+import entities.User;
 import services.AnswerService;
 import services.ProductService;
 import services.QuestionService;
@@ -69,16 +71,18 @@ public class SubmitQuestionnaire extends HttpServlet {
 		String sex = request.getParameter("sex");
 		String expertise = request.getParameter("expertise");
 		String[] parAnswers = request.getParameterValues("answers[]");
+		User user = (User) request.getSession().getAttribute("user");
 		
 		if (parAnswers == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No answers found");
             return;
         }
 		
-		 List<String> answers = Arrays.asList(parAnswers);
+		List<String> answers = Arrays.asList(parAnswers);
+		
+		submissionService.submitDailyQuestionnaire(user, age, sex, expertise, answers);
 		
 		
-
 		String path = getServletContext().getContextPath() + "/GreetingsPage";
 		response.sendRedirect(path);
 	}

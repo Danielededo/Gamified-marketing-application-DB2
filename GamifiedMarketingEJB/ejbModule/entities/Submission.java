@@ -1,9 +1,11 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +24,7 @@ import javax.persistence.Table;
 @NamedQuery(name = "Submission.findByProduct", query = "SELECT s FROM Submission s WHERE s.product.id = :productId AND s.cancelled = FALSE")
 @NamedQuery(name = "Submission.findCancelledByProduct", query = "SELECT s FROM Submission s WHERE s.product.id = :productId AND s.cancelled = TRUE")
 @NamedQuery(name = "Submission.findByDate", query = "SELECT s FROM Submission s WHERE s.product.date = :dateNow ORDER BY s.points DESC")
+@NamedQuery(name = "Submission.hasAlreadySubmitted", query = "SELECT s FROM Submission s WHERE s.product.date = :dateNow AND s.user.id = :userId")
 public class Submission implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -34,13 +38,21 @@ public class Submission implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "product")
 	private Product product;
-	
+
 	//bi-directional many-to-one association to Answer
-	@OneToMany(mappedBy="submission", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true )
+	@OneToMany(mappedBy="submission", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE,CascadeType.PERSIST}, orphanRemoval = true )
 	private List<Answer> answers;
-	
+	@OneToOne(mappedBy="submission", cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
+	private Statistics statistics;
+
 	public Submission() {
 		// EJB constructor
+	}
+
+	public Submission(User user, Product product) {
+		this.user = user;
+		this.product = product;
+		this.cancelled = false;
 	}
 
 	public Integer getId() {
@@ -90,6 +102,29 @@ public class Submission implements Serializable {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
-	
-	
+
+	public Statistics getStatistics() {
+		return statistics;
+	}
+
+	public void setStatistics(Statistics statistics) {
+		this.statistics = statistics;
+	}
+
+	public void addAnswer(Answer answer) {
+		answer.setSubmission(this);
+		if (answers != null) {
+			answers.add(answer);
+		} else {
+			answers = new ArrayList<Answer>();
+			answers.add(answer);
+		}
+
+	}
+
+	public void addStatistics(Statistics stats) {
+		stats.setSubmission(this);
+		this.statistics = stats;
+	}
+
 }
