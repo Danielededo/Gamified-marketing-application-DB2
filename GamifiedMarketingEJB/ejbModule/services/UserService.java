@@ -36,4 +36,12 @@ public class UserService {
 
 	}
 	
+	public void setBanned(String username) {
+		List<User> list = em.createNamedQuery("User.findByUsername", User.class).setParameter(1, username)
+				.getResultList();
+		User u = list.get(0);
+		u.setBanned(true);
+		em.persist(u);
+	}
+	
 }

@@ -20,14 +20,17 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import entities.Answer;
+import entities.OffensiveWord;
 import entities.Product;
 import entities.Question;
 import entities.Statistics;
 import entities.User;
 import services.AnswerService;
+import services.OffensiveWordService;
 import services.ProductService;
 import services.QuestionService;
 import services.SubmissionService;
+import services.UserService;
 
 @WebServlet("/SubmitQuestionnaire")
 public class SubmitQuestionnaire extends HttpServlet {
@@ -36,17 +39,23 @@ public class SubmitQuestionnaire extends HttpServlet {
 
 	private TemplateEngine templateEngine;
 
+	@EJB(name = "services/UserService") 
+	private UserService userService;
+	
 	@EJB(name = "services/ProductService") 
 	private ProductService productService;
-	
+
 	@EJB(name = "services/QuestionService") 
 	private QuestionService questionService;
-	
+
 	@EJB(name = "services/SubmissionService")
 	private SubmissionService submissionService;
-	
+
 	@EJB(name = "services/AnswerService")
 	private AnswerService answerService;
+
+	@EJB(name = "services/OffensiveWordService")
+	private OffensiveWordService offensiveService;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -72,19 +81,39 @@ public class SubmitQuestionnaire extends HttpServlet {
 		String expertise = request.getParameter("expertise");
 		String[] parAnswers = request.getParameterValues("answers[]");
 		User user = (User) request.getSession().getAttribute("user");
-		
+
 		if (parAnswers == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No answers found");
-            return;
-        }
-		
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No answers found");
+			return;
+		}
+
 		List<String> answers = Arrays.asList(parAnswers);
-		
-		submissionService.submitDailyQuestionnaire(user, age, sex, expertise, answers);
-		
-		
-		String path = getServletContext().getContextPath() + "/GreetingsPage";
-		response.sendRedirect(path);
+		List<OffensiveWord> offensiveWords = offensiveService.findAllBadwords();
+
+		Boolean isBanned = false;
+
+		for(int i = 0 ; i < answers.size() ; i++) {
+
+			String answer = answers.get(i);
+
+			for(int j = 0 ; j < offensiveWords.size() ; j++) {
+				if(answer.toLowerCase().contains(offensiveWords.get(j).getTerm().toLowerCase())) {
+					isBanned = true;
+				}
+			}
+		}
+
+		if(isBanned) {
+			userService.setBanned(user.getUsername());
+			String path = getServletContext().getContextPath() + "/Banned";
+			response.sendRedirect(path);
+		}
+		else {
+			submissionService.submitDailyQuestionnaire(user, age, sex, expertise, answers);
+
+			String path = getServletContext().getContextPath() + "/GreetingsPage";
+			response.sendRedirect(path);
+		}
 	}
 
 }
