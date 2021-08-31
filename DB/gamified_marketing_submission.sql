@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `gamified_marketing` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `gamified_marketing`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Linux (x86_64)
 --
 -- Host: localhost    Database: gamified_marketing
@@ -28,14 +26,14 @@ CREATE TABLE `submission` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user` int NOT NULL,
   `product` int NOT NULL,
-  `points` int DEFAULT NULL,
+  `points` int NOT NULL DEFAULT '0',
   `cancelled` tinyint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `submission_fk_user_idx` (`user`),
   KEY `submission_fk_product_idx` (`product`),
   CONSTRAINT `submission_fk_product` FOREIGN KEY (`product`) REFERENCES `product` (`id`),
   CONSTRAINT `submission_fk_user` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +42,7 @@ CREATE TABLE `submission` (
 
 LOCK TABLES `submission` WRITE;
 /*!40000 ALTER TABLE `submission` DISABLE KEYS */;
-INSERT INTO `submission` VALUES (1,2,1,10,0),(2,3,1,8,0),(3,1,1,19,0);
+INSERT INTO `submission` VALUES (7,1,5,0,0),(8,4,5,1,0),(9,5,5,7,0),(10,6,5,7,0),(11,3,5,7,0),(12,7,5,7,0),(13,8,5,7,0);
 /*!40000 ALTER TABLE `submission` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -72,4 +70,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-27 16:16:09
+-- Dump completed on 2021-08-30 23:35:17
