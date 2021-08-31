@@ -41,7 +41,7 @@ public class CancelQuestionnaire extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		User user = (User) request.getSession().getAttribute("user");
 		submissionService.cancelSubmission(user);

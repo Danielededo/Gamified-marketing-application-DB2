@@ -2,13 +2,13 @@ package services;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import entities.Product;
 import entities.User;
 import exceptions.CredentialsException;
 
@@ -17,6 +17,9 @@ public class UserService {
 
 	@PersistenceContext(unitName = "GamifiedMarketingEJB")
 	private EntityManager em;
+	
+	@EJB(name = "services/AdminService")
+	private LogService logService;
 
 	public UserService() {
 	}
@@ -31,8 +34,10 @@ public class UserService {
 		}
 		if (uList.isEmpty())
 			return null;
-		else if (uList.size() == 1)
+		else if (uList.size() == 1) {
+			logService.addLog(uList.get(0));
 			return uList.get(0);
+		}
 		throw new NonUniqueResultException("More than one user registered with same credentials");
 
 	}

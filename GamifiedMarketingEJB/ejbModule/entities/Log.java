@@ -1,7 +1,8 @@
 package entities;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "log", schema = "gamified_marketing")
@@ -23,12 +25,18 @@ public class Log implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "user")
 	private User user;
-	private LocalDateTime datetime;
+	private Timestamp datetime;
 	
 	public Log() {
 		// EJB constructor
 	}
 	
+	public Log(User user, Timestamp datetime) {
+		super();
+		this.user = user;
+		this.datetime = datetime;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -41,10 +49,10 @@ public class Log implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public LocalDateTime getDatetime() {
+	public Date getDatetime() {
 		return datetime;
 	}
-	public void setDatetime(LocalDateTime datetime) {
+	public void setDatetime(Timestamp datetime) {
 		this.datetime = datetime;
 	}
 	
