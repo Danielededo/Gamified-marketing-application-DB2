@@ -37,7 +37,6 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (4,'antonio',_binary 'Screenshot from 2021-08-30 15-54-26.png','2021-08-30'),(5,'gigio',_binary 'Screenshot from 2021-08-30 15-54-26.png','2021-08-31');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -68,4 +67,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-30 23:35:17
+-- Dump completed on 2021-08-31 13:18:08
