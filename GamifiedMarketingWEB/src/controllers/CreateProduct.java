@@ -82,8 +82,13 @@ public class CreateProduct extends HttpServlet {
 		try {
 			InputStream photoContent = image.getInputStream();
 			b = ImageUtils.readImage(photoContent);
+			
 		} catch (IOException ioe) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to load the image file");			
+			return;
+		}
+		if(b.length == 0) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid or missing file");
 			return;
 		}
 		try {

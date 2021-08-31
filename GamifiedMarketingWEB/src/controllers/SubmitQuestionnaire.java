@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import entities.Answer;
 import entities.OffensiveWord;
 import entities.User;
 import exceptions.IncompleteQuestionnaireException;
@@ -61,24 +63,24 @@ public class SubmitQuestionnaire extends HttpServlet {
 		String sex = request.getParameter("sex");
 		String expertise = request.getParameter("expertise");
 		String[] parAnswers = request.getParameterValues("answers[]");
+		List<String> answers;
 
 		User user = (User) request.getSession().getAttribute("user");
-		
-		/*try {
+
+		try {
 			age = Integer.parseInt(request.getParameter("age"));
 		} catch (NumberFormatException nfe) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid non numeric input for 'age' field");
-			return;
+			age = null;
 		} catch (NullPointerException npe) {
 			age = null;
-		}*/
-		if(ageParam == "") {
-			age = null;
-		}else {
-			age = Integer.parseInt(request.getParameter("age"));
 		}
 
-		List<String> answers = Arrays.asList(parAnswers);
+
+		if (parAnswers != null) {
+			answers = Arrays.asList(parAnswers);
+		} else {
+			answers = new ArrayList<String>();
+		}
 		List<OffensiveWord> offensiveWords = offensiveService.findAllBadwords();
 
 		Boolean isBanned = false;
@@ -86,7 +88,6 @@ public class SubmitQuestionnaire extends HttpServlet {
 		for(int i = 0 ; i < answers.size() ; i++) {
 
 			String answer = answers.get(i);
-
 			for(int j = 0 ; j < offensiveWords.size() ; j++) {
 				if(answer.toLowerCase().contains(offensiveWords.get(j).getTerm().toLowerCase())) {
 					isBanned = true;
@@ -101,7 +102,7 @@ public class SubmitQuestionnaire extends HttpServlet {
 		}
 		else {
 			try {
-			submissionService.submitDailyQuestionnaire(user, age, sex, expertise, answers);
+				submissionService.submitDailyQuestionnaire(user, age, sex, expertise, answers);
 			} catch (IncompleteQuestionnaireException iqe) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, iqe.getMessage());
 				return;
