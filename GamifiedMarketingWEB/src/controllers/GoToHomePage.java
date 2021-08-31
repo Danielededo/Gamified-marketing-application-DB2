@@ -55,7 +55,7 @@ public class GoToHomePage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Product dailyProduct = null;
-		List<Submission> submissions = null;
+		List<Submission> submissions;
 
 		try {
 			// query db to authenticate for admin
@@ -64,8 +64,11 @@ public class GoToHomePage extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Double daily product inconsistency");
 			return;
 		}
-		submissions = submissionService.findByProduct(dailyProduct.getId());
-		
+		try {
+			submissions = submissionService.findByProduct(dailyProduct.getId());
+		} catch (NullPointerException npe) {
+			submissions  = null;
+		}
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/Home.html";
 		ServletContext servletContext = getServletContext();

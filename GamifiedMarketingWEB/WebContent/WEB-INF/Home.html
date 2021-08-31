@@ -5,16 +5,16 @@
 <title>Home</title>
 </head>
 <body>
-	<span>Gamified marketing project</span>
+	<h1>Gamified marketing project</h1>
 	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
 	<a th:href="@{/Leaderboard}"> Leaderboard</a>
 	<br>
 
-	<span th:if="${dailyProduct} != null"
+	<p th:if="${dailyProduct} != null"
 		th:text="${'The daily product is: ' + dailyProduct.name}">Product
-		of the day</span>
-	<span th:if="${dailyProduct} == null">No daily product has been
-		selected</span>
+		of the day</p>
+	<p th:if="${dailyProduct} == null">No daily product has been
+		selected</p>
 	<br>
 
 	<img th:if="${dailyProduct} != null" width="200px"
