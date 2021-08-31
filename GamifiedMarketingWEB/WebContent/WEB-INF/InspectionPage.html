@@ -46,7 +46,7 @@
 	<div th:if="${submissions != null}">
 		<p
 			th:text="${#lists.isEmpty(submissions)} ? 'Up to now, no review has been left' : 'Up to now, the following ' + 
-			'reviews have been received for product ' + ${submissions(0).product.name}">
+			'reviews have been received for product ' + ${submissions[0].product.name}">
 		</p>
 		<ul>
 			<li th:each="sub : ${submissions}"><span
@@ -69,7 +69,7 @@
 
 	<div th:if="${cancelledSubs != null}">
 		<p
-			th:text="${#lists.isEmpty(cancelledSubs)} ? 'Up to now, no review has been cancelled' : 'Up to now, the following users have cancelled their reviews for ' + ${submissions(0).product.name}"></p>
+			th:text="${#lists.isEmpty(cancelledSubs)} ? 'Up to now, no review has been cancelled' : 'Up to now, the following users have cancelled their reviews for ' + ${submissions[0].product.name}"></p>
 		<ul>
 			<li th:each="sub : ${cancelledSubs}"><span
 				th:text="'User: ' + ${sub.user.username}"> </span></li>
