@@ -31,17 +31,17 @@ import services.ProductService;
 public class GoToCreationPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-       
+
 	@EJB(name = "services/ProductService")
 	private ProductService productService;
-	
-    public GoToCreationPage() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	
-    public void init() throws ServletException {
+	public GoToCreationPage() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
 		templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -49,18 +49,19 @@ public class GoToCreationPage extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-    
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			List<Product> products = null;
-			HttpSession session = request.getSession();
-			
-			products = productService.getAllProducts();
-			
-			String path = "/WEB-INF/CreationPage.html";
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("products", products);
-			templateEngine.process(path, ctx, response.getWriter());
+		List<Product> products = null;
+		HttpSession session = request.getSession();
+
+		products = productService.getAllProducts();
+		
+
+		String path = "/WEB-INF/CreationPage.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		ctx.setVariable("products", products);
+		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	/**

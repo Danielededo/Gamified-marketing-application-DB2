@@ -6,7 +6,10 @@
 </head>
 <body>
 
-	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
+	<div style="float: right;">
+		<a th:href="@{/Logout}">LogOut</a> <br> <a
+			th:href="@{/AdminPage}">AdminPage</a>
+	</div>
 	<h1>Create a new questionnaire</h1>
 
 	<div>
@@ -17,6 +20,7 @@
 			<br> <input placeholder="Upload an image of the product"
 				type="file" name="img" accept="image/png/jpg"><br> <input
 				type="submit" value="Add product">
+				<p th:if="${param.product}">Success: a new daily product has been added</p>
 		</form>
 	</div>
 
@@ -36,23 +40,10 @@
 				cols="50" required></textarea>
 		</p>
 		<input type="submit" value="AddQuestion">
+		<p th:if="${param.question}">Success: a new question has been added</p>
 	</form>
+	
 
 </body>
-
-<script>
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth() + 1; //January is 0 so need to add 1 to make it 1!
-	var yyyy = today.getFullYear();
-	if (dd < 10) {
-		dd = '0' + dd
-	}
-	if (mm < 10) {
-		mm = '0' + mm
-	}
-	today = yyyy + '-' + mm + '-' + dd;
-	document.getElementById("datefield").setAttribute("min", today);
-</script>
 
 </html>

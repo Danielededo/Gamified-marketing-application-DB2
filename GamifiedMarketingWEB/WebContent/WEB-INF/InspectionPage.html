@@ -5,8 +5,10 @@
 <title>InspectionPage</title>
 </head>
 <body>
-
-	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
+	<div style="float: right;">
+		<a th:href="@{/Logout}">LogOut</a> <br> <a
+			th:href="@{/AdminPage}">AdminPage</a>
+	</div>
 	<form th:if="${not #lists.isEmpty(dailyProducts)}" action="GetInfo"
 		method="GET">
 		<p>

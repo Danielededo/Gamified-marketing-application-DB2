@@ -7,7 +7,9 @@ import java.util.List;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -36,20 +38,20 @@ import utils.ImageUtils;
 public class CreateProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	
+
 	@EJB(name = "services/ProductService")
 	private ProductService productService;
-	
+
 	@EJB(name = "services/QuestionService")
 	private QuestionService questionService;
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CreateProduct() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public CreateProduct() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -65,12 +67,36 @@ public class CreateProduct extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("productName");
 		String date = request.getParameter("date");
-		Date dateProd = Date.valueOf(date);
 		Part image = request.getPart("img");
-		InputStream photoContent = image.getInputStream();
-		byte[] b = ImageUtils.readImage(photoContent);
-		DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
-		
+
+
+		byte[] b;
+		Date dateProd;
+		LocalDate now = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
+
+		if(name == null || name.isEmpty() || date == null || date.isEmpty() || image == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input parameters");			
+			return;
+		}
+
+		try {
+			InputStream photoContent = image.getInputStream();
+			b = ImageUtils.readImage(photoContent);
+		} catch (IOException ioe) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to load the image file");			
+			return;
+		}
+		try {
+			dateProd = Date.valueOf(date);
+		} catch(Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to load the date");			
+			return;
+		}
+
+		if(dateProd.before(Date.valueOf(now))) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid value of the date");			
+			return;
+		}
 		List<Product> products = productService.getAllProducts();
 
 		boolean dateTaken = false;
@@ -79,18 +105,18 @@ public class CreateProduct extends HttpServlet {
 				dateTaken = true;
 			}
 		}
-		
-        if (dateTaken) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "There is already a questionnaire scheduled for the selected date");
-            return;
-        }
-        
-        Product product = productService.addProduct(name, b, dateProd);
-        //same for each question
-        
-		String path = getServletContext().getContextPath() + "/CreationPage";
+
+		if (dateTaken) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "There is already a questionnaire scheduled for the selected date");
+			return;
+		}
+		productService.addProduct(name, b, dateProd);
+
+		//same for each question
+
+		String path = getServletContext().getContextPath() + "/CreationPage?product";
 		response.sendRedirect(path);
-       
+
 	}
 
 }

@@ -17,6 +17,7 @@ import entities.Question;
 import entities.Statistics;
 import entities.Submission;
 import entities.User;
+import exceptions.IncompleteQuestionnaireException;
 
 @Stateless
 public class SubmissionService {
@@ -69,14 +70,19 @@ public class SubmissionService {
 		return submissions;
 	}
 
-	public void submitDailyQuestionnaire(User user, int age, String sex, String expertise, List<String> strAnswers) {
+	public void submitDailyQuestionnaire(User user, Integer age, String sex, String expertise, List<String> strAnswers) 
+			throws IncompleteQuestionnaireException {
 		Product product = productService.findDailyProduct();
 		List<Question> dailyQuestions = questionService.getQuestions(product.getId());
-		List<Answer> answers;
+		if(strAnswers.size() != dailyQuestions.size()) {
+			throw new IncompleteQuestionnaireException("The marketing section is uncomplete");
+		}
 		Submission sub = new Submission(user, product);
 		Statistics stats = new Statistics();
 		stats.setSubmission(sub);
+		
 		stats.setAge(age);
+	
 		if (sex.equals("male") || sex.equals("female")) {
 			stats.setSex(sex);
 		} else {
@@ -95,7 +101,7 @@ public class SubmissionService {
 		em.persist(sub);
 		em.flush();
 	}
-	
+
 	public void cancelSubmission(User user) {
 		Submission sub = new Submission();
 		Product prod = productService.findDailyProduct();

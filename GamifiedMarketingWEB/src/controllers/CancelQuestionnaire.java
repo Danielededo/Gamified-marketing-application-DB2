@@ -46,7 +46,7 @@ public class CancelQuestionnaire extends HttpServlet {
 		User user = (User) request.getSession().getAttribute("user");
 		submissionService.cancelSubmission(user);
 		
-		String path = getServletContext().getContextPath() + "/Home";
+		String path = getServletContext().getContextPath() + "/Home?cancel";
 		response.sendRedirect(path);
 
 	}

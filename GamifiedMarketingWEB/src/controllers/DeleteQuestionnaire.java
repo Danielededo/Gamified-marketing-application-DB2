@@ -29,42 +29,46 @@ import services.QuestionService;
 public class DeleteQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	
+
 	@EJB(name = "services/ProductService")
 	private ProductService productService;
-	
+
 	@EJB(name = "services/QuestionService")
 	private QuestionService questionService;
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DeleteQuestionnaire() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	public DeleteQuestionnaire() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String productId = request.getParameter("productId");
-		Integer prod = Integer.parseInt(productId);
-        productService.deleteProduct(prod);
-        //same for each question
-        
-        
-        String path = "/DeletionPage";
-        RequestDispatcher dispatcher = request.getRequestDispatcher(path);
+		Integer prod;
+		if (productId == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing id parameter");
+			return;
+		}
+		try {
+			prod = Integer.parseInt(productId);
+		} catch (NumberFormatException nfe) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid non numerical input");
+			return;
+		}
+		try {
+			productService.deleteProduct(prod);
+		} catch (IllegalArgumentException iae) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, iae.getMessage());
+			return;
+		}
+
+		//same for each question
+
+
+		String path = "/DeletionPage";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
 		dispatcher.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-	}
+
 
 }

@@ -52,8 +52,6 @@ public class GoToDeletionPage extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-
 		List<Product> products;
 		String path = "/WEB-INF/DeletionPage.html";
 		ServletContext servletContext = getServletContext();

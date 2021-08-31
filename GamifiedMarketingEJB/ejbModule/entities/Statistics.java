@@ -25,7 +25,7 @@ public class Statistics implements Serializable{
 	@JoinColumn(name = "submission")
 	private Submission submission;
 	
-	private int age;
+	private Integer age;
 	private String sex;
 	private String expertise;
 	
@@ -46,10 +46,10 @@ public class Statistics implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getAge() {
+	public Integer getAge() {
 		return age;
 	}
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 	public String getSex() {

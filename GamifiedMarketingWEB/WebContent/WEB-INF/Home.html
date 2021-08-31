@@ -20,6 +20,8 @@
 	<img th:if="${dailyProduct} != null" width="200px"
 		th:src="*{'data:image/png;base64,'+ dailyProduct.getBase64Image()}">
 	<br>
+	<p th:if="${param.cancel}">The last operation has been cancelled.
+		You can still submit your daily questionnaire.</p>
 	<a th:if="${dailyProduct} != null" th:href="@{/QuestionnairePage}">Fill
 		the daily questionnaire!</a>
 	<br>

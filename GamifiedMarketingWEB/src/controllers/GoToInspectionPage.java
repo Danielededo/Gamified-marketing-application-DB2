@@ -34,11 +34,11 @@ public class GoToInspectionPage extends HttpServlet {
 	private TemplateEngine templateEngine;
 	@EJB(name = "services/ProductService")
 	private ProductService productService;
-	
+
 	public GoToInspectionPage() {
 		super();
 	}
-	
+
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
@@ -47,17 +47,13 @@ public class GoToInspectionPage extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		LocalDate today = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
 
-		Admin admin = (Admin) session.getAttribute("admin");
 		List<Product> dailyProducts = null;
-		
 		dailyProducts = productService.getAllProducts();
-		
+
 		// Redirect to the inpsection page and add the daily products list to the parameters
 		String path = "/WEB-INF/InspectionPage.html";
 		ServletContext servletContext = getServletContext();
@@ -66,7 +62,7 @@ public class GoToInspectionPage extends HttpServlet {
 
 		templateEngine.process(path, ctx, response.getWriter());
 	}
-	
+
 	public void destroy() {
 	}
 }

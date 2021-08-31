@@ -67,20 +67,15 @@ public class ProductService {
 		return em.createNamedQuery("Product.getProductById", Product.class).setParameter("productId", productId).getSingleResult();
 	}
 
-	public Product addProduct(String name, byte[] image, Date date) {
+	public void addProduct(String name, byte[] image, Date date) {
 		Product product = new Product(name, image, date);
 		em.persist(product);
 		em.flush();
-		return product;
 	}
 
 	public void deleteProduct(int productId) {
 		Product product = em.find(Product.class, productId);
-
-
 		List<Submission> submissions = submissionService.findByProduct(productId);
-
-
 		List<Question> questions = questionService.getQuestions(productId);
 
 		if (product == null || submissions == null) {

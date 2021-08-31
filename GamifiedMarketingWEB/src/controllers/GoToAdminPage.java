@@ -40,15 +40,11 @@ public class GoToAdminPage extends HttpServlet {
 	}
 		
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		List<Product> dailyProducts = null;
-				
+			throws ServletException, IOException {				
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/AdminPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

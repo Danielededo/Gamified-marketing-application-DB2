@@ -6,7 +6,11 @@
 </head>
 <body>
 
-	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
+	<div style="float: right;">
+		<a th:href="@{/Logout}">LogOut</a> <br> <a
+			th:href="@{/AdminPage}">AdminPage</a>
+	</div>
+	
 	<h1>Delete past product and its questionnaire</h1>
 
 	<table th:unless="${#lists.isEmpty(products)}" style="width: 50%">

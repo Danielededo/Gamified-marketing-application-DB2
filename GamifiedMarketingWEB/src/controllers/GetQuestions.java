@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -47,21 +48,25 @@ public class GetQuestions extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String param = request.getParameter("productId");
+		int productId;
 		if (param == null || param.isEmpty()) {
 			ServletContext servletContext = getServletContext();
 			String path = getServletContext().getContextPath() + "/AdminPage";
 			response.sendRedirect(path);
 			return;
 		}
-		
-		int productId = Integer.parseInt(param);
+		try {
+		productId = Integer.parseInt(param);
+		} catch (NumberFormatException nfe) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid non numerical input");
+			return;
+		}
 		List<Question> questions;
 
 		try {
 			questions = qService.getQuestions(productId);
 		} catch (NullPointerException npe) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "No questions inconsistency");
-			return;
+			questions = new ArrayList<Question>();
 		}
 		String path = "/AdminPage";
 		request.setAttribute("questions", questions);

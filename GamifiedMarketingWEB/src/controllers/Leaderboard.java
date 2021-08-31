@@ -44,11 +44,8 @@ public class Leaderboard extends HttpServlet {
 		String path = "/WEB-INF/Leaderboard.html";
 		List<Submission> submissions;
 
-		try {
-			submissions = submissionService.findLeaderboard();
-		} catch (NullPointerException npe) {
-			submissions = new ArrayList<Submission>();
-		}
+		submissions = submissionService.findLeaderboard();
+		
 		ctx.setVariable("submissions", submissions);
 		templateEngine.process(path, ctx, response.getWriter());
 	}

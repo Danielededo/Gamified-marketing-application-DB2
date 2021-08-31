@@ -52,10 +52,8 @@ public class GoToGreetingsPage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		LocalDate today = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
-
 		User user = (User) session.getAttribute("user");
-		
+
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/GreetingsPage.html";
 		ServletContext servletContext = getServletContext();

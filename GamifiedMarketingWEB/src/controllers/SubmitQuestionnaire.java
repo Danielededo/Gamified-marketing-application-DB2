@@ -21,6 +21,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import entities.OffensiveWord;
 import entities.User;
+import exceptions.IncompleteQuestionnaireException;
 import services.OffensiveWordService;
 import services.SubmissionService;
 import services.UserService;
@@ -33,7 +34,7 @@ public class SubmitQuestionnaire extends HttpServlet {
 
 	@EJB(name = "services/UserService") 
 	private UserService userService;
-	
+
 	@EJB(name = "services/SubmissionService")
 	private SubmissionService submissionService;
 
@@ -58,16 +59,21 @@ public class SubmitQuestionnaire extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		int age = Integer.parseInt(request.getParameter("age"));
+		String ageParam = request.getParameter("age");
+		Integer age;
 		String sex = request.getParameter("sex");
 		String expertise = request.getParameter("expertise");
 		String[] parAnswers = request.getParameterValues("answers[]");
-		User user = (User) request.getSession().getAttribute("user");
 
-		if (parAnswers == null) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No answers found");
+		User user = (User) request.getSession().getAttribute("user");
+		
+		try {
+			age = Integer.parseInt(request.getParameter("age"));
+		} catch (NumberFormatException nfe) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid non numeric input for 'age' field");
 			return;
+		} catch (NullPointerException npe) {
+			age = null;
 		}
 
 		List<String> answers = Arrays.asList(parAnswers);
@@ -92,8 +98,12 @@ public class SubmitQuestionnaire extends HttpServlet {
 			response.sendRedirect(path);
 		}
 		else {
+			try {
 			submissionService.submitDailyQuestionnaire(user, age, sex, expertise, answers);
-
+			} catch (IncompleteQuestionnaireException iqe) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, iqe.getMessage());
+				return;
+			}
 			String path = getServletContext().getContextPath() + "/GreetingsPage";
 			response.sendRedirect(path);
 		}

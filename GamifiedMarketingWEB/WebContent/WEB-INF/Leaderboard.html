@@ -5,7 +5,10 @@
 <title>Leaderboard of today</title>
 </head>
 <body>
-	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
+	<div style="float: right;">
+		<a th:href="@{/Logout}">LogOut</a> <br> <a
+			th:href="@{/Home}">AdminPage</a>
+	</div>
 	<h1 id="date">Leaderboard of today</h1>
 
 	<table th:unless="${#lists.isEmpty(submissions)}" style="width: 50%">

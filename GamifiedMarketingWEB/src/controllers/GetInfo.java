@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.persistence.NoResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -28,13 +29,13 @@ import services.SubmissionService;
 public class GetInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	
+
 	@EJB(name = "services/SubmissionService")
 	private SubmissionService submissionService;
-	
+
 	@EJB(name = "services/QuestionService")
 	private QuestionService questionService;
-	
+
 	@EJB(name = "services/ProductService")
 	private ProductService productService;
 
@@ -53,21 +54,30 @@ public class GetInfo extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String param = request.getParameter("productId");
-		int productId = Integer.parseInt(param);
+		int productId;
 		Product product = null;
+		
 		List<Submission> submissions = null;
 		List<Submission> cancelledSubs = null;
 		List<Question> questions = null;
 
 		if (param == null || param.isEmpty()) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.getWriter().println("A nonempty paraameter is required to get the submissions");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input parameter");			
 			return;
 		}
-
+		try {
+			productId = Integer.parseInt(param);
+		} catch (NumberFormatException nfe) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid non numerical parameter");			
+			return;
+		}
+		
 		try {
 			product = productService.getProductById(productId);
-		} catch (NullPointerException npe) {
+		} catch (NullPointerException npe ) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			response.getWriter().println("No product with such id");
+		} catch (NoResultException nre) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().println("No product with such id");
 		}
@@ -83,13 +93,13 @@ public class GetInfo extends HttpServlet {
 		} catch (NullPointerException npe) {
 			cancelledSubs = new ArrayList<Submission>();
 		}
-		
+
 		try {
 			questions = questionService.getQuestions(productId);
 		} catch (NullPointerException npe) {
 			questions = new ArrayList<Question>();
 		}
-		
+
 		String path = "/InspectionPage";
 		request.setAttribute("submissions", submissions);
 		request.setAttribute("cancelledSubs", cancelledSubs);

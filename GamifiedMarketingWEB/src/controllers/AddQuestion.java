@@ -47,37 +47,34 @@ public class AddQuestion extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException { 
+			throws ServletException, IOException {
+		
 		String path;
-
+		String paramId = request.getParameter("productId");
 		Integer productId; // Questionnaire id
-		String question; // Marketing question to add
+		String question = request.getParameter("marketingQuestion"); // Marketing question to add
 
-		Product product = null;
-
-		// Re-load all available products to have consistency in the page
-		List<Product> products = null;
-		products = pService.getAllProducts();
+		if(paramId == null || paramId.isEmpty() || question == null || question.isEmpty()){
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input parameters");			
+			return;
+		}
 
 		try {
 			// Get and escape parameters
-			productId = Integer.parseInt(request.getParameter("productId"));
-			question = StringEscapeUtils.escapeJava(request.getParameter("marketingQuestion"));
-			
+			try {
+				productId = Integer.parseInt(paramId);
+			} catch (NumberFormatException nfe) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid non-numeric input");			
+				return;
+			}
+			question = StringEscapeUtils.escapeJava(question);
+
 			qService.addQuestion(productId, question);
-			
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());						
-			path = getServletContext().getContextPath() + "/AdminPage";
+
+			path = getServletContext().getContextPath() + "/CreationPage?question";
 			response.sendRedirect(path);
 			return;
-			/*
-			String path = "/AdminPage";
-			request.setAttribute("submissions", submissions);
-			request.setAttribute("cancelledSubs", cancelledSubs);
-			RequestDispatcher dispatcher = request.getRequestDispatcher(path);
-			dispatcher.forward(request, response);
-			*/
+
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());			
 			return;

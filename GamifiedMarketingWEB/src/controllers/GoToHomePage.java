@@ -54,10 +54,6 @@ public class GoToHomePage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		LocalDate today = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
-
-		User user = (User) session.getAttribute("user");
 		Product dailyProduct = null;
 		List<Submission> submissions = null;
 
@@ -65,15 +61,10 @@ public class GoToHomePage extends HttpServlet {
 			// query db to authenticate for admin
 			dailyProduct = productService.findDailyProduct();
 		} catch (NonUniqueResultException e) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error retrieving daily product");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Double daily product inconsistency");
 			return;
 		}
-
-		try {
-			submissions = submissionService.findByProduct(dailyProduct.getId());
-		} catch (NullPointerException npe) {
-			submissions = null;
-		}
+		submissions = submissionService.findByProduct(dailyProduct.getId());
 		
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/Home.html";
