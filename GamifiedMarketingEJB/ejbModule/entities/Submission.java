@@ -53,6 +53,7 @@ public class Submission implements Serializable {
 		this.user = user;
 		this.product = product;
 		this.cancelled = false;
+		this.points = 0;
 	}
 
 	public Integer getId() {
