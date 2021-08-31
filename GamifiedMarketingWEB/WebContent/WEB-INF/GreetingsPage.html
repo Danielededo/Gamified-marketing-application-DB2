@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Greetings Page</title>
 </head>
 <body>
-<h1 th:text="'Thank you ' + ${user.username} + '!'"></h1>
-<p>You can submit only a questionnaire per day. Come back soon!</p>
+	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
+	<h1 th:text="'Thank you ' + ${user.username} + '!'"></h1>
+	<p>You can submit only a questionnaire per day. Come back soon!</p>
 </body>
 </html>

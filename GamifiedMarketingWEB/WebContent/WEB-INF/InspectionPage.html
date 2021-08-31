@@ -6,6 +6,7 @@
 </head>
 <body>
 
+	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
 	<form th:if="${not #lists.isEmpty(dailyProducts)}" action="GetInfo"
 		method="GET">
 		<p>

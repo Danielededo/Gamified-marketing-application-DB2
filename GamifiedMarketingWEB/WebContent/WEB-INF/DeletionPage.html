@@ -6,8 +6,9 @@
 </head>
 <body>
 
+	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
 	<h1>Delete past product and its questionnaire</h1>
-	
+
 	<table th:unless="${#lists.isEmpty(products)}" style="width: 50%">
 		<thead>
 			<tr>
@@ -19,16 +20,17 @@
 		</thead>
 		<tbody>
 			<tr th:each="product: ${products}">
-				<td style="text-align: center"><span
-					th:text="${product.name}">Product</span></td>
-				<td style="text-align: center"><img th:if="${product.image} != null" width="150px"
+				<td style="text-align: center"><span th:text="${product.name}">Product</span></td>
+				<td style="text-align: center"><img
+					th:if="${product.image} != null" width="150px"
 					th:src="*{'data:image/png;base64,'+ product.getBase64Image()}"></td>
-				<td style="text-align: center"><span
-					th:text="${product.date}">Date</span></td>
-				<td><a th:href="@{'/DeleteQuestionnaire?productId=' + ${product.id}}"> Delete</a></td>
+				<td style="text-align: center"><span th:text="${product.date}">Date</span></td>
+				<td><a
+					th:href="@{'/DeleteQuestionnaire?productId=' + ${product.id}}">
+						Delete</a></td>
 			</tr>
 		</tbody>
 	</table>
-	 <p th:if="${#lists.isEmpty(products)}">There are no past products</p>
+	<p th:if="${#lists.isEmpty(products)}">There are no past products</p>
 </body>
 </html>
