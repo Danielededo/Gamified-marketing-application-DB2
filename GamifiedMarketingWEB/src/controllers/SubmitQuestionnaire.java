@@ -1,12 +1,10 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -67,13 +64,18 @@ public class SubmitQuestionnaire extends HttpServlet {
 
 		User user = (User) request.getSession().getAttribute("user");
 		
-		try {
+		/*try {
 			age = Integer.parseInt(request.getParameter("age"));
 		} catch (NumberFormatException nfe) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid non numeric input for 'age' field");
 			return;
 		} catch (NullPointerException npe) {
 			age = null;
+		}*/
+		if(ageParam == "") {
+			age = null;
+		}else {
+			age = Integer.parseInt(request.getParameter("age"));
 		}
 
 		List<String> answers = Arrays.asList(parAnswers);

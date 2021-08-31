@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,7 +22,7 @@ import javax.persistence.Table;
 @NamedQuery(name = "Submission.findByUsername", query = "SELECT s FROM Submission s WHERE s.user.username = :username")
 @NamedQuery(name = "Submission.findByProduct", query = "SELECT s FROM Submission s WHERE s.product.id = :productId AND s.cancelled = FALSE")
 @NamedQuery(name = "Submission.findCancelledByProduct", query = "SELECT s FROM Submission s WHERE s.product.id = :productId AND s.cancelled = TRUE")
-@NamedQuery(name = "Submission.findByDate", query = "SELECT s FROM Submission s WHERE s.product.date = :dateNow ORDER BY s.points DESC")
+@NamedQuery(name = "Submission.findByDate", query = "SELECT s FROM Submission s WHERE s.product.date = :dateNow AND s.cancelled=FALSE ORDER BY s.points DESC")
 @NamedQuery(name = "Submission.hasAlreadySubmitted", query = "SELECT s FROM Submission s WHERE s.product.date = :dateNow AND s.user.id = :userId and s.cancelled = FALSE")
 public class Submission implements Serializable {
 	private static final long serialVersionUID = 1L;

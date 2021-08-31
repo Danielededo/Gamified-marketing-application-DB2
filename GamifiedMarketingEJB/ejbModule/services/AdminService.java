@@ -1,6 +1,5 @@
 package services;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -10,7 +9,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import entities.Admin;
-import entities.User;
 import exceptions.CredentialsException;
 
 @Stateless

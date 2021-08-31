@@ -11,13 +11,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 
-import entities.Admin;
 import entities.Product;
 import entities.Question;
 import entities.Submission;
-import exceptions.CredentialsException;
 
 @Stateless
 public class ProductService {
