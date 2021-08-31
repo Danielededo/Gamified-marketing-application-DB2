@@ -5,7 +5,7 @@
 <title>Leaderboard of today</title>
 </head>
 <body>
-
+	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
 	<h1 id="date">Leaderboard of today</h1>
 
 	<table th:unless="${#lists.isEmpty(submissions)}" style="width: 50%">
@@ -24,7 +24,8 @@
 			</tr>
 		</tbody>
 	</table>
-	 <p th:if="${#lists.isEmpty(submissions)}">No submission has been left yet</p>
+	<p th:if="${#lists.isEmpty(submissions)}">No submission has been
+		left yet</p>
 
 </body>
 </html>

@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Admin Page</title>
 </head>
 <body>
-
+	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
+	<p>Choose one of the following pages:</p>
 	<a th:href="@{/CreationPage}">Link to creation page</a>
 	<br><br>
 	<a th:href="@{/InspectionPage}">Link to inspection page</a>

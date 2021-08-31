@@ -6,6 +6,7 @@
 </head>
 <body>
 
+	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
 	<h1>Create a new questionnaire</h1>
 
 	<div>
@@ -23,17 +24,18 @@
 
 
 	<form action="AddQuestion" method="POST">
-			<p>
-				<label for="products">Choose a product:</label> <select name="productId" id="productId">
-					<option th:each="product : ${products}" th:value="${product.id}"
-						th:text="${product.name} + ' ' + ${product.date}"></option>
-				</select>
-			</p>
-			<p>
-				<textarea id="marketingQuestion" name="marketingQuestion" rows="2"
-					cols="50" required></textarea>
-			</p>
-			<input type="submit" value="AddQuestion">
+		<p>
+			<label for="products">Choose a product:</label> <select
+				name="productId" id="productId">
+				<option th:each="product : ${products}" th:value="${product.id}"
+					th:text="${product.name} + ' ' + ${product.date}"></option>
+			</select>
+		</p>
+		<p>
+			<textarea id="marketingQuestion" name="marketingQuestion" rows="2"
+				cols="50" required></textarea>
+		</p>
+		<input type="submit" value="AddQuestion">
 	</form>
 
 </body>

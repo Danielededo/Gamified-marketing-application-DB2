@@ -6,7 +6,7 @@
 </head>
 <body>
 	<span>Gamified marketing project</span>
-
+	<a th:href="@{/Logout}" style="float: right;">LogOut</a>
 	<a th:href="@{/Leaderboard}"> Leaderboard</a>
 	<br>
 
@@ -20,7 +20,8 @@
 	<img th:if="${dailyProduct} != null" width="200px"
 		th:src="*{'data:image/png;base64,'+ dailyProduct.getBase64Image()}">
 	<br>
-	<a th:if="${dailyProduct} != null" th:href="@{/QuestionnairePage}">Fill the daily questionnaire!</a>
+	<a th:if="${dailyProduct} != null" th:href="@{/QuestionnairePage}">Fill
+		the daily questionnaire!</a>
 	<br>
 
 	<div th:if="${not #lists.isEmpty(submissions)}">
@@ -46,7 +47,7 @@
 	<div th:if="${submissions == null or #lists.isEmpty(submissions)}">
 		<p>Up to now, no reviews have been received</p>
 	</div>
-	
+
 
 </body>
 </html>
