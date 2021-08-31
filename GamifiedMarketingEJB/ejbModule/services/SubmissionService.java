@@ -9,7 +9,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 
 import entities.Answer;
@@ -70,12 +69,24 @@ public class SubmissionService {
 		return submissions;
 	}
 
-	public Submission submitDailyQuestionnaire(User user, int age, String sex, String expertise, List<String> strAnswers) {
+	public void submitDailyQuestionnaire(User user, int age, String sex, String expertise, List<String> strAnswers) {
 		Product product = productService.findDailyProduct();
 		List<Question> dailyQuestions = questionService.getQuestions(product.getId());
 		List<Answer> answers;
 		Submission sub = new Submission(user, product);
-		Statistics stats = new Statistics(sub, age, sex, expertise);
+		Statistics stats = new Statistics();
+		stats.setSubmission(sub);
+		stats.setAge(age);
+		if (sex.equals("male") || sex.equals("female")) {
+			stats.setSex(sex);
+		} else {
+			stats.setSex(null);
+		}
+		if (expertise.equals("Low") || expertise.equals("Medium") || expertise.equals("High")) {
+			stats.setExpertise(expertise);
+		} else {
+			stats.setExpertise(null);
+		}
 		sub.addStatistics(stats);
 		for(int i = 0; i<dailyQuestions.size(); i++) {
 			Answer answer = new Answer(sub, dailyQuestions.get(i), strAnswers.get(i));
@@ -83,7 +94,17 @@ public class SubmissionService {
 		}
 		em.persist(sub);
 		em.flush();
-		return sub;
+	}
+	
+	public void cancelSubmission(User user) {
+		Submission sub = new Submission();
+		Product prod = productService.findDailyProduct();
+		sub.setUser(user);
+		sub.setCancelled(true);
+		sub.setPoints(0);
+		sub.setProduct(prod);
+		em.persist(sub);
+		em.flush();
 	}
 
 }

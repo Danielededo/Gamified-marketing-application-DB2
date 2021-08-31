@@ -19,16 +19,9 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import entities.Answer;
 import entities.OffensiveWord;
-import entities.Product;
-import entities.Question;
-import entities.Statistics;
 import entities.User;
-import services.AnswerService;
 import services.OffensiveWordService;
-import services.ProductService;
-import services.QuestionService;
 import services.SubmissionService;
 import services.UserService;
 
@@ -36,23 +29,13 @@ import services.UserService;
 public class SubmitQuestionnaire extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-
 	private TemplateEngine templateEngine;
 
 	@EJB(name = "services/UserService") 
 	private UserService userService;
 	
-	@EJB(name = "services/ProductService") 
-	private ProductService productService;
-
-	@EJB(name = "services/QuestionService") 
-	private QuestionService questionService;
-
 	@EJB(name = "services/SubmissionService")
 	private SubmissionService submissionService;
-
-	@EJB(name = "services/AnswerService")
-	private AnswerService answerService;
 
 	@EJB(name = "services/OffensiveWordService")
 	private OffensiveWordService offensiveService;

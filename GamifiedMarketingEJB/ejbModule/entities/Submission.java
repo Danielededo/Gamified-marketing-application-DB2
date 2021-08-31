@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @NamedQuery(name = "Submission.findByProduct", query = "SELECT s FROM Submission s WHERE s.product.id = :productId AND s.cancelled = FALSE")
 @NamedQuery(name = "Submission.findCancelledByProduct", query = "SELECT s FROM Submission s WHERE s.product.id = :productId AND s.cancelled = TRUE")
 @NamedQuery(name = "Submission.findByDate", query = "SELECT s FROM Submission s WHERE s.product.date = :dateNow ORDER BY s.points DESC")
-@NamedQuery(name = "Submission.hasAlreadySubmitted", query = "SELECT s FROM Submission s WHERE s.product.date = :dateNow AND s.user.id = :userId")
+@NamedQuery(name = "Submission.hasAlreadySubmitted", query = "SELECT s FROM Submission s WHERE s.product.date = :dateNow AND s.user.id = :userId and s.cancelled = FALSE")
 public class Submission implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
