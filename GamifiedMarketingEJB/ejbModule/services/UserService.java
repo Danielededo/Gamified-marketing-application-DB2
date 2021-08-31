@@ -8,18 +8,19 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import entities.Product;
 import entities.User;
 import exceptions.CredentialsException;
 
 @Stateless
 public class UserService {
-	
+
 	@PersistenceContext(unitName = "GamifiedMarketingEJB")
 	private EntityManager em;
 
 	public UserService() {
 	}
-	
+
 	public User checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
 		List<User> uList = null;
 		try {
@@ -35,7 +36,7 @@ public class UserService {
 		throw new NonUniqueResultException("More than one user registered with same credentials");
 
 	}
-	
+
 	public void setBanned(String username) {
 		List<User> list = em.createNamedQuery("User.findByUsername", User.class).setParameter(1, username)
 				.getResultList();
@@ -44,5 +45,22 @@ public class UserService {
 		em.persist(u);
 		em.flush();
 	}
+
+	public User addUser(String username, String password, String email) {
+		User user = new User(username, password, email);
+		em.persist(user);
+		em.flush();
+
+		return user;
+	}
 	
+	public boolean checkExistence(String username) {
+		List<User> list = em.createNamedQuery("User.findByUsername", User.class).setParameter(1, username)
+				.getResultList();
+		if(list.size()== 0)
+			return true;
+		else
+			return false;
+	}
+
 }

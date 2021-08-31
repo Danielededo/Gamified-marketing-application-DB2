@@ -8,11 +8,20 @@
 	<h1>Welcome to the gamified marketing application</h1>
 
 	<form action="CheckLogin" method="POST">
+		<h2>Insert your credentials to login</h2>
 		Username: <input type="text" name="username" required> <br>
 		Password: <input type="password" name="pwd" required><br>
-		<input type="submit" value="login">
+		<input type="submit" value="Login">
 		<p th:if="${param.error}">Incorrect username or password</p>
 	</form>
-
+<br><br>
+	<form method="POST" th:action="@{/Registration}">
+		<h2>Fill the form to register</h2>
+		Username: <input type="text" name="username" required> <br>
+		Email: <input type="text" name="email" required> <br>
+		Password: <input type="password" name="pwd" required><br>
+		<input type="submit" value="Register">
+		<p th:if="${param.register}">User correctly registered</p>
+	</form>
 </body>
 </html>
