@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.sql.Date;
@@ -11,10 +12,12 @@ import java.time.LocalDate;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import org.thymeleaf.TemplateEngine;
 
@@ -23,11 +26,13 @@ import services.AdminService;
 import services.ProductService;
 import services.QuestionService;
 import services.UserService;
+import utils.ImageUtils;
 
 /**
  * Servlet implementation class Creation
  */
 @WebServlet("/CreateProduct")
+@MultipartConfig
 public class CreateProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
@@ -61,8 +66,9 @@ public class CreateProduct extends HttpServlet {
 		String name = request.getParameter("productName");
 		String date = request.getParameter("date");
 		Date dateProd = Date.valueOf(date);
-		String image = request.getParameter("img");
-		byte[] b = image.getBytes(StandardCharsets.UTF_8);
+		Part image = request.getPart("img");
+		InputStream photoContent = image.getInputStream();
+		byte[] b = ImageUtils.readImage(photoContent);
 		DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
 		
 		List<Product> products = productService.getAllProducts();
