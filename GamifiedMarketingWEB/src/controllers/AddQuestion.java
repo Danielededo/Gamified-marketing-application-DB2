@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.util.List;
 
+import javax.ejb.CreateException;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -48,7 +49,7 @@ public class AddQuestion extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String path;
 		String paramId = request.getParameter("productId");
 		Integer productId; // Questionnaire id
@@ -68,9 +69,12 @@ public class AddQuestion extends HttpServlet {
 				return;
 			}
 			question = StringEscapeUtils.escapeJava(question);
-
-			qService.addQuestion(productId, question);
-
+			try {
+				qService.addQuestion(productId, question);
+			} catch (CreateException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());			
+				return;
+			}
 			path = getServletContext().getContextPath() + "/CreationPage?question";
 			response.sendRedirect(path);
 			return;
