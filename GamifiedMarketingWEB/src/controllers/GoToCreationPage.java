@@ -54,7 +54,7 @@ public class GoToCreationPage extends HttpServlet {
 		List<Product> products = null;
 		HttpSession session = request.getSession();
 
-		products = productService.getAllProducts();
+		products = productService.findNextProduct();
 		
 
 		String path = "/WEB-INF/CreationPage.html";

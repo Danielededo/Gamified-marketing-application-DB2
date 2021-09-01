@@ -59,6 +59,17 @@ public class ProductService {
 		else
 			return aList;
 	}
+	
+	public List<Product> findNextProduct()  {
+		List<Product> aList = null;
+		LocalDate localDate = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
+		Date date = Date.valueOf(localDate);
+		aList = em.createNamedQuery("Product.findNextProduct", Product.class).setParameter(1, date).getResultList();
+		if (aList.isEmpty())
+			return null;
+		else
+			return aList;
+	}
 
 	public Product getProductById(int productId) {
 		return em.createNamedQuery("Product.getProductById", Product.class).setParameter("productId", productId).getSingleResult();
@@ -75,8 +86,13 @@ public class ProductService {
 		List<Submission> submissions = submissionService.findByProduct(productId);
 		List<Question> questions = questionService.getQuestions(productId);
 
+		LocalDate localDate = LocalDateTime.now().plus(Duration.ofHours(2)).toLocalDate();
+		Date date = Date.valueOf(localDate);
 		if (product == null || submissions == null) {
 			throw new IllegalArgumentException(String.format("Product with ID = %d does not exist!", productId));
+		}
+		if(date.after(product.getDate()) || date.equals(product.getDate())) {
+			throw new IllegalArgumentException(String.format("Product with ID = %d cannot be eliminated because it is not a past product!", productId));
 		}
 		for(Submission s: submissions)
 			{em.remove(s);}

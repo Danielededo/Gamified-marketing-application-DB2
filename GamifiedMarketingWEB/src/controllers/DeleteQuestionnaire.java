@@ -61,8 +61,7 @@ public class DeleteQuestionnaire extends HttpServlet {
 			return;
 		}
 
-		//same for each question
-
+		//triggers in order to delete questions and submissions
 
 		String path = "/DeletionPage";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
