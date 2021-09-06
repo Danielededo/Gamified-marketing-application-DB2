@@ -91,7 +91,7 @@ public class ProductService {
 		if (product == null || submissions == null) {
 			throw new IllegalArgumentException(String.format("Product with ID = %d does not exist!", productId));
 		}
-		if(date.after(product.getDate()) || date.equals(product.getDate())) {
+		if(date.before(product.getDate()) || date.equals(product.getDate())) {
 			throw new IllegalArgumentException(String.format("Product with ID = %d cannot be eliminated because it is not a past product!", productId));
 		}
 		for(Submission s: submissions)
@@ -99,7 +99,6 @@ public class ProductService {
 		for(Question q: questions)
 			{em.remove(q);}
 		em.remove(product);
-		em.flush();
 	}
 
 }
